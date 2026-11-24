@@ -1,0 +1,2243 @@
+```html
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs | Hridoy Saha Shawon - Online Academic & Admission Care</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Hind Siliguri', 'Inter', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            udvash: {
+              red: '#C8102E',
+              redDark: '#A00C24',
+              redLight: '#FFF1F3',
+              navy: '#1B2A4A',
+              navyDark: '#0F192E',
+              teal: '#0F766E',
+              amber: '#F59E0B',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Hind Siliguri', 'Inter', sans-serif;
+      background-color: #F4F6F9;
+      color: #1E293B;
+      overflow-x: hidden;
+    }
+    .font-en {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    /* Udvash style subtle card elevation */
+    .program-card {
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+    .program-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px -8px rgba(27, 42, 74, 0.14);
+      border-color: #C8102E;
+    }
+    /* OMR Bubble styling */
+    .omr-bubble {
+      transition: all 0.15s ease;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #receiptPrintArea, #receiptPrintArea * {
+        visibility: visible;
+      }
+      #receiptPrintArea {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white;
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Toast Notification Container (Replaces alert/confirm) -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- Top Utility Strip (Udvash-Unmesh Exact Top Info Strip) -->
+  <div class="bg-udvash-navyDark text-slate-200 text-xs py-2 px-3 sm:px-6 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex flex-wrap items-center gap-3 sm:gap-5">
+        <a href="tel:01706631550" class="inline-flex items-center gap-1.5 font-semibold text-amber-400 hover:text-amber-300 transition">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          <span class="font-en">হেল্পলাইন: 01706631550 (+880 1706-631550)</span>
+        </a>
+        <span class="hidden lg:inline text-slate-600">|</span>
+        <span class="hidden lg:inline-flex items-center gap-1.5 text-slate-300">
+          <svg class="w-3.5 h-3.5 text-udvash-red shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+          </svg>
+          <span>Dhukuria, Shiyalkhol Union, Sirajganj Sadar, Sirajganj, Bangladesh</span>
+        </span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span id="routeIndicator" class="hidden sm:inline-block bg-white/10 text-slate-200 px-2.5 py-0.5 rounded font-en text-[11px]">
+          Course/Programs?classId=0&amp;programType=0
+        </span>
+        <button type="button" onclick="openModal('noticeModal')" class="text-amber-300 hover:underline font-semibold">
+          জরুরি নোটিশ (৩)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Sticky Header (Udvash-Unmesh Online Portal Header) -->
+  <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20 gap-3">
+        <!-- Brand Logo: Hridoy Saha Shawon -->
+        <a href="#programs" onclick="switchMainSection('programs'); resetFilters(); return false;" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-udvash-red to-udvash-navy flex items-center justify-center text-white shadow-md group-hover:scale-105 transition">
+            <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-base sm:text-xl font-extrabold tracking-tight text-udvash-navy font-en leading-none">
+                Hridoy Saha Shawon
+              </span>
+            </div>
+            <p class="text-[11px] sm:text-xs font-semibold text-udvash-red leading-tight mt-0.5">
+              হৃদয় সাহা শাওন • অনলাইন প্রোগ্রাম পোর্টাল
+            </p>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-1 xl:gap-2">
+          <button type="button" onclick="switchMainSection('programs')" data-nav="programs" class="nav-link active-nav px-3.5 py-2 rounded-lg text-sm font-bold text-udvash-red bg-udvash-redLight transition">
+            প্রোগ্রামসমূহ
+          </button>
+          <button type="button" onclick="switchMainSection('routine')" data-nav="routine" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-udvash-red hover:bg-slate-50 transition">
+            ক্লাস ও এক্সাম রুটিন
+          </button>
+          <button type="button" onclick="switchMainSection('freeclass')" data-nav="freeclass" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-udvash-red hover:bg-slate-50 transition">
+            ফ্রি ক্লাস
+          </button>
+          <button type="button" onclick="switchMainSection('liveexam')" data-nav="liveexam" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-udvash-red hover:bg-slate-50 transition">
+            লাইভ MCQ এক্সাম
+          </button>
+          <button type="button" onclick="switchMainSection('notice')" data-nav="notice" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-udvash-red hover:bg-slate-50 transition">
+            নোটিশ বোর্ড
+          </button>
+          <button type="button" onclick="switchMainSection('contact')" data-nav="contact" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-udvash-red hover:bg-slate-50 transition">
+            যোগাযোগ
+          </button>
+        </nav>
+
+        <!-- Right CTA Buttons -->
+        <div class="flex items-center gap-2 sm:gap-2.5">
+          <a href="tel:01706631550" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-udvash-red/30 bg-udvash-redLight text-udvash-red font-bold text-xs sm:text-sm hover:bg-udvash-red hover:text-white transition font-en">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span>01706631550</span>
+          </a>
+
+          <button type="button" onclick="openStudentPortal()" class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-udvash-red hover:bg-udvash-redDark text-white font-bold text-xs sm:text-sm shadow-sm transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span>Join Now / পোর্টাল</span>
+            <span id="enrolledBadge" class="ml-0.5 bg-white text-udvash-red font-en font-extrabold text-[11px] px-1.5 py-0.2 rounded-full">0</span>
+          </button>
+
+          <!-- Mobile Hamburger -->
+          <button type="button" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Menu" class="lg:hidden p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div id="mobileMenu" class="hidden lg:hidden pb-4 pt-2 border-t border-slate-100 space-y-1.5">
+        <button type="button" onclick="switchMainSection('programs'); toggleMobileMenu(false);" class="w-full text-left px-3 py-2.5 rounded-lg font-bold text-sm text-udvash-red bg-udvash-redLight">প্রোগ্রামসমূহ (All Programs)</button>
+        <button type="button" onclick="switchMainSection('routine'); toggleMobileMenu(false);" class="w-full text-left px-3 py-2.5 rounded-lg font-semibold text-sm text-slate-700 hover:bg-slate-50">ক্লাস ও এক্সাম রুটিন (Routine)</button>
+        <button type="button" onclick="switchMainSection('freeclass'); toggleMobileMenu(false);" class="w-full text-left px-3 py-2.5 rounded-lg font-semibold text-sm text-slate-700 hover:bg-slate-50">ফ্রি ডেমো ক্লাস (Free Classes)</button>
+        <button type="button" onclick="switchMainSection('liveexam'); toggleMobileMenu(false);" class="w-full text-left px-3 py-2.5 rounded-lg font-semibold text-sm text-slate-700 hover:bg-slate-50">লাইভ MCQ এক্সাম (Live Exam)</button>
+        <button type="button" onclick="switchMainSection('notice'); toggleMobileMenu(false);" class="w-full text-left px-3 py-2.5 rounded-lg font-semibold text-sm text-slate-700 hover:bg-slate-50">নোটিশ বোর্ড (Notices)</button>
+        <button type="button" onclick="switchMainSection('contact'); toggleMobileMenu(false);" class="w-full text-left px-3 py-2.5 rounded-lg font-semibold text-sm text-slate-700 hover:bg-slate-50">যোগাযোগ ও ঠিকানা (Contact)</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1">
+
+    <!-- ========================================================= -->
+    <!-- SECTION 1: COURSE / PROGRAMS CATALOG (DEFAULT ACTIVE VIEW) -->
+    <!-- ========================================================= -->
+    <section id="section-programs" class="portal-section">
+      <!-- Breadcrumb & Udvash-Unmesh Style Page Header Banner -->
+      <div class="bg-gradient-to-r from-udvash-navyDark via-udvash-navy to-[#243B6B] text-white border-b-4 border-udvash-red">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs sm:text-sm text-slate-300 mb-3 font-en">
+            <a href="#home" onclick="switchMainSection('programs'); resetFilters(); return false;" class="hover:text-white">Home</a>
+            <span>/</span>
+            <a href="#course" onclick="switchMainSection('programs'); return false;" class="hover:text-white">Course</a>
+            <span>/</span>
+            <span class="text-amber-400 font-semibold">Programs</span>
+          </nav>
+
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-udvash-red text-white text-xs font-bold mb-2.5 shadow-sm">
+                <span>অনলাইন ও কম্বো প্রোগ্রামসমূহ ২০২৬-২০২৭</span>
+              </div>
+              <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-snug">
+                চলমান একাডেমিক ও এডমিশন প্রোগ্রামসমূহ
+              </h1>
+              <p class="text-slate-200 text-sm sm:text-base mt-1.5 max-w-2xl">
+                <strong class="text-amber-300">Hridoy Saha Shawon</strong> — দেশসেরা মেন্টরদের লাইভ ক্লাস, প্রিন্টেড লেকচার শিট, ডেইলি MCQ ও উইকলি রিটেন এক্সাম এবং সেন্ট্রাল মেরিট লিস্টের মাধ্যমে তোমার প্রস্তুতিকে করো শতভাগ নিশ্চিত।
+              </p>
+            </div>
+
+            <!-- Quick Helpline & Stats Card -->
+            <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-4 sm:p-5 shrink-0 lg:w-80">
+              <div class="flex items-center justify-between text-xs text-amber-300 font-bold mb-1">
+                <span>ভর্তি ও তথ্য সহায়তা</span>
+                <span class="font-en">২৪/৭ সার্ভিস</span>
+              </div>
+              <a href="tel:01706631550" class="block text-xl sm:text-2xl font-extrabold text-white font-en hover:text-amber-300 transition">
+                01706631550
+              </a>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                Dhukuria, Shiyalkhol Union, Sirajganj Sadar, Sirajganj, Bangladesh
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Udvash-Unmesh Exact Dual Filter Bar (Class Filter + Program Type Filter + Search) -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-5 relative z-20">
+        <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 sm:p-6 space-y-4">
+          <!-- Row 1: Class Filter (classId) -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs sm:text-sm font-bold text-udvash-navy flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-udvash-red"></span>
+                <span>শ্রেণি নির্বাচন করুন (Select Class):</span>
+              </span>
+              <button type="button" onclick="resetFilters()" class="text-xs font-bold text-udvash-red hover:underline">
+                সব ফিল্টার রিসেট করুন ↺
+              </button>
+            </div>
+            <div id="classFilterContainer" class="flex flex-wrap gap-2">
+              <!-- Rendered dynamically by JS -->
+            </div>
+          </div>
+
+          <!-- Row 2: Program Type Filter (programType) + Search Box -->
+          <div class="pt-3 border-t border-slate-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="flex-1">
+              <span class="block text-xs sm:text-sm font-bold text-udvash-navy mb-2 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-udvash-teal"></span>
+                <span>প্রোগ্রামের ধরন (Program Type):</span>
+              </span>
+              <div id="typeFilterContainer" class="flex flex-wrap gap-2">
+                <!-- Rendered dynamically by JS -->
+              </div>
+            </div>
+
+            <!-- Live Search & Sort -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+              <div class="relative">
+                <input
+                  type="text"
+                  id="programSearchInput"
+                  oninput="handleSearch(this.value)"
+                  placeholder="কোর্স খুঁজুন (যেমন: HSC, Medical, SSC)..."
+                  class="w-full sm:w-64 pl-9 pr-3 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-udvash-red focus:ring-2 focus:ring-udvash-red/15"
+                />
+                <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 10.5a7.5 7.5 0 0013.15 6.15z" />
+                </svg>
+              </div>
+              <select id="programSortSelect" onchange="handleSort(this.value)" class="px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white font-semibold text-slate-700 focus:outline-none focus:border-udvash-red">
+                <option value="featured">জনপ্রিয় ক্রম (Featured)</option>
+                <option value="fee-asc">ফি: কম থেকে বেশি</option>
+                <option value="fee-desc">ফি: বেশি থেকে কম</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Counter & Active Filter Tags -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-4 flex flex-wrap items-center justify-between gap-2">
+        <p id="programCountLabel" class="text-sm sm:text-base font-bold text-udvash-navy">
+          মোট ১৬টি প্রোগ্রাম পাওয়া গেছে
+        </p>
+        <div class="flex items-center gap-2 text-xs text-slate-600">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <span>অনলাইন এবং প্রিন্টেড বুক কুরিয়ার সুবিধা চালু আছে</span>
+        </div>
+      </div>
+
+      <!-- Programs Grid -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+        <div id="programsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Program Cards injected dynamically by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyProgramsState" class="hidden bg-white rounded-2xl border border-slate-200 p-10 text-center max-w-lg mx-auto my-6">
+          <div class="w-14 h-14 rounded-full bg-udvash-redLight text-udvash-red flex items-center justify-center mx-auto mb-3">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">দুঃখিত, কোনো প্রোগ্রাম পাওয়া যায়নি!</h3>
+          <p class="text-sm text-slate-600 mt-1">অন্য শ্রেণি বা প্রোগ্রামের ধরন নির্বাচন করে আবার চেষ্টা করুন।</p>
+          <button type="button" onclick="resetFilters()" class="mt-4 px-5 py-2.5 rounded-xl bg-udvash-red text-white font-bold text-sm hover:bg-udvash-redDark transition">
+            সকল প্রোগ্রাম দেখুন
+          </button>
+        </div>
+      </div>
+
+      <!-- Udvash-Unmesh Style "Why Choose Hridoy Saha Shawon Online" Feature Band -->
+      <div class="bg-white border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center max-w-2xl mx-auto mb-9">
+            <span class="text-xs font-bold uppercase tracking-wider text-udvash-red bg-udvash-redLight px-3 py-1 rounded-full">
+              অনন্য সেবাসমূহ
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-udvash-navy mt-2">
+              কেন <span class="text-udvash-red font-en">Hridoy Saha Shawon</span> অনলাইন প্রোগ্রাম সেরা?
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <div class="w-11 h-11 rounded-xl bg-red-100 text-udvash-red flex items-center justify-center font-extrabold text-lg mb-3">০১</div>
+              <h3 class="font-bold text-base text-udvash-navy">ইন্টারেক্টিভ লাইভ ও রেকর্ডেড ক্লাস</h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">প্রতিটি লাইভ ক্লাসের পর হাই-কোয়ালিটি রেকর্ডেড ভিডিও ও PDF ক্লাস নোট পোর্টালে সংরক্ষিত থাকে।</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <div class="w-11 h-11 rounded-xl bg-blue-100 text-udvash-navy flex items-center justify-center font-extrabold text-lg mb-3">০২</div>
+              <h3 class="font-bold text-base text-udvash-navy">ডেইলি MCQ ও উইকলি রিটেন এক্সাম</h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">বোর্ড ও এডমিশন স্ট্যান্ডার্ড প্রশ্নে নিয়মিত পরীক্ষা, নেগেটিভ মার্কিং প্র্যাকটিস ও সল্যুশন শিট।</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <div class="w-11 h-11 rounded-xl bg-teal-100 text-udvash-teal flex items-center justify-center font-extrabold text-lg mb-3">০৩</div>
+              <h3 class="font-bold text-base text-udvash-navy">প্রিন্টেড লেকচার শিট ও প্রশ্নব্যাংক</h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">সারা দেশে কুরিয়ারের মাধ্যমে প্রিন্টেড কনসেপ্ট বুক, মাস্টার প্রশ্নব্যাংক ও মডেল টেস্ট বই পাঠানো হয়।</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-extrabold text-lg mb-3">০৪</div>
+              <h3 class="font-bold text-base text-udvash-navy">২৪/৭ Q&amp;A এবং SMS রেজাল্ট</h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">যেকোনো টপিকে সমস্যা হলে ২৪/৭ Q&amp;A প্যানেল ও হেল্পলাইন (<span class="font-en font-bold">01706631550</span>) সাপোর্ট।</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 2: CLASS & EXAM ROUTINE VIEW                      -->
+    <!-- ========================================================= -->
+    <section id="section-routine" class="portal-section hidden py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-udvash-red bg-udvash-redLight px-3 py-1 rounded-full">কেন্দ্রীয় রুটিন ২০২৬</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-udvash-navy mt-2">অনলাইন লাইভ ক্লাস ও এক্সাম রুটিন</h2>
+            <p class="text-sm text-slate-600 mt-1">Hridoy Saha Shawon অনলাইন একাডেমিক ও এডমিশন প্রোগ্রামের সাপ্তাহিক সময়সূচি</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <select id="routineFilterSelect" onchange="renderRoutineTable()" class="px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold text-slate-700 bg-white">
+              <option value="all">সকল ব্যাচ (All Batches)</option>
+              <option value="HSC">HSC 1st &amp; 2nd Year</option>
+              <option value="SSC">SSC &amp; Class 9-10</option>
+              <option value="Junior">Class 6 - 8 Foundation</option>
+              <option value="Admission">Medical / Engineering / Varsity</option>
+            </select>
+            <button type="button" onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-udvash-navy text-white text-sm font-bold hover:bg-udvash-navyDark transition">
+              রুটিন প্রিন্ট করুন
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto mt-6">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-udvash-navy text-white text-xs sm:text-sm">
+                <th class="py-3.5 px-4 rounded-tl-xl">বার ও সময়</th>
+                <th class="py-3.5 px-4">প্রোগ্রাম / ব্যাচ</th>
+                <th class="py-3.5 px-4">বিষয় ও অধ্যায়</th>
+                <th class="py-3.5 px-4">কার্যক্রম</th>
+                <th class="py-3.5 px-4 rounded-tr-xl text-right">অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="routineTableBody" class="divide-y divide-slate-200 text-sm">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 3: FREE DEMO CLASSES VIEW                         -->
+    <!-- ========================================================= -->
+    <section id="section-freeclass" class="portal-section hidden py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div class="mb-7">
+        <span class="text-xs font-bold uppercase tracking-wider text-udvash-teal bg-teal-50 px-3 py-1 rounded-full">ফ্রি ওরিয়েন্টেশন ও ডেমো লেকচার</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-udvash-navy mt-2">ফ্রি ডেমো ক্লাস দেখুন এবং মান যাচাই করুন</h2>
+        <p class="text-sm text-slate-600 mt-1">ভর্তি হওয়ার আগে আমাদের লাইভ ক্লাস রেকর্ডিং, লেকচার স্লাইড ও কনসেপ্ট বোঝানোর ধরন দেখে নিন।</p>
+      </div>
+
+      <div id="freeClassesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 4: LIVE ONLINE MCQ EXAM PORTAL                    -->
+    <!-- ========================================================= -->
+    <section id="section-liveexam" class="portal-section hidden py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+        <!-- Exam Top Bar -->
+        <div class="bg-udvash-navy text-white p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-4 border-udvash-red">
+          <div>
+            <span class="text-xs font-bold bg-udvash-red px-2.5 py-0.5 rounded uppercase">Udvash-Style Online Exam Engine</span>
+            <h2 class="text-xl sm:text-2xl font-extrabold mt-1.5">লাইভ ডেইলি MCQ মডেল টেস্ট ও মেরিট লিস্ট</h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-0.5">প্রতিটি সঠিক উত্তরে +১.০০ এবং প্রতিটি ভুল উত্তরে -০.২৫ নেগেটিভ মার্কিং প্রযোজ্য</p>
+          </div>
+          <div class="bg-udvash-navyDark border border-white/15 rounded-xl px-4 py-2.5 text-center shrink-0">
+            <div class="text-[11px] text-amber-300 font-bold uppercase">অবশিষ্ট সময় (Time Left)</div>
+            <div id="examTimerText" class="text-2xl font-extrabold font-en text-white">05:00</div>
+          </div>
+        </div>
+
+        <div class="p-5 sm:p-7">
+          <!-- Subject Tabs -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-5 mb-6 border-b border-slate-200">
+            <div class="flex flex-wrap gap-2" id="examSubjectButtons">
+              <button type="button" onclick="loadExamSubject('physics')" data-subj="physics" class="exam-subj-btn px-4 py-2 rounded-xl text-sm font-bold bg-udvash-red text-white">পদার্থবিজ্ঞান (Physics)</button>
+              <button type="button" onclick="loadExamSubject('chemistry')" data-subj="chemistry" class="exam-subj-btn px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">রসায়ন (Chemistry)</button>
+              <button type="button" onclick="loadExamSubject('math')" data-subj="math" class="exam-subj-btn px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">উচ্চতর গণিত (Higher Math)</button>
+              <button type="button" onclick="loadExamSubject('biology')" data-subj="biology" class="exam-subj-btn px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">জীববিজ্ঞান (Biology)</button>
+            </div>
+            <div id="examAnsweredCounter" class="text-xs sm:text-sm font-bold text-udvash-navy bg-slate-100 px-3 py-1.5 rounded-lg">
+              উত্তর দেওয়া হয়েছে: ০ / ৪
+            </div>
+          </div>
+
+          <!-- Questions List -->
+          <div id="examQuestionsWrapper" class="space-y-6">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-8 pt-5 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+            <button type="button" onclick="submitLiveExam()" class="px-6 py-3 rounded-xl bg-udvash-red hover:bg-udvash-redDark text-white font-bold text-sm sm:text-base shadow-md transition">
+              উত্তরপত্র জমা দিন (Submit Answer Sheet)
+            </button>
+            <button type="button" onclick="resetLiveExam()" class="px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm transition">
+              পুনরায় পরীক্ষা দিন ↺
+            </button>
+          </div>
+
+          <!-- Evaluation & Central Merit Result Box -->
+          <div id="examEvaluationCard" class="hidden mt-7 rounded-2xl border-2 border-udvash-teal bg-teal-50/50 p-6 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-teal-200 pb-4">
+              <div>
+                <span class="text-xs font-extrabold uppercase text-udvash-teal">সেন্ট্রাল রেজাল্ট ও মেরিট রিপোর্ট</span>
+                <h3 id="examFinalScoreText" class="text-2xl font-extrabold text-udvash-navy mt-0.5">প্রাপ্ত নম্বর: 0.00 / 4.00</h3>
+              </div>
+              <div class="flex items-center gap-3">
+                <div id="examMeritBadge" class="px-4 py-2 rounded-xl bg-udvash-navy text-amber-300 font-extrabold text-sm">
+                  Merit Position: #12
+                </div>
+              </div>
+            </div>
+            <div id="examSolutionsContainer" class="space-y-3"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 5: NOTICE BOARD VIEW                              -->
+    <!-- ========================================================= -->
+    <section id="section-notice" class="portal-section hidden py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-udvash-red bg-udvash-redLight px-3 py-1 rounded-full">অফিসিয়াল বিজ্ঞপ্তি</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-udvash-navy mt-2 mb-6">নোটিশ বোর্ড ও ভর্তি বিজ্ঞপ্তি ২০২৬</h2>
+        <div id="noticeBoardList" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 6: CONTACT & BRANCH ADDRESS VIEW                  -->
+    <!-- ========================================================= -->
+    <section id="section-contact" class="portal-section hidden py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 bg-udvash-navy text-white rounded-2xl p-6 sm:p-8 space-y-5 shadow-md">
+          <span class="text-xs font-bold bg-udvash-red px-3 py-1 rounded-full">সরাসরি যোগাযোগ ও ঠিকানা</span>
+          <h2 class="text-2xl font-extrabold font-en">Hridoy Saha Shawon</h2>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            যেকোনো কোর্সে ভর্তি, প্রিন্টেড লেকচার শিট কুরিয়ার, রুটিন অথবা টেকনিক্যাল সহায়তার জন্য সরাসরি কল করুন অথবা আমাদের অফিসে যোগাযোগ করুন।
+          </p>
+
+          <div class="space-y-4 pt-2 text-sm">
+            <div class="bg-white/10 rounded-xl p-4">
+              <div class="text-xs text-amber-300 font-bold">হেল্পলাইন ও বিকাশ/নগদ সাপোর্ট নম্বর</div>
+              <a href="tel:01706631550" class="text-xl font-extrabold font-en text-white hover:text-amber-300 mt-0.5 block">
+                +880 1706-631550 (01706631550)
+              </a>
+            </div>
+            <div class="bg-white/10 rounded-xl p-4">
+              <div class="text-xs text-amber-300 font-bold">প্রধান কার্যালয় ও একাডেমিক ঠিকানা</div>
+              <p class="font-semibold text-white mt-1">
+                Dhukuria, Shiyalkhol Union, Sirajganj Sadar, Sirajganj, Bangladesh
+              </p>
+              <p class="text-xs text-slate-300 mt-0.5">
+                (ধুকুরিয়া, শিয়ালকোল ইউনিয়ন, সিরাজগঞ্জ সদর, সিরাজগঞ্জ)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+          <h3 class="text-xl font-extrabold text-udvash-navy mb-1">ভর্তি পরামর্শ ও কলব্যাক ফর্ম</h3>
+          <p class="text-sm text-slate-600 mb-5">আপনার তথ্য দিন, আমাদের একাডেমিক কাউন্সেলর <strong class="font-en">01706631550</strong> নম্বর থেকে শীঘ্রই কল করবেন।</p>
+          <form onsubmit="submitContactInquiry(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষার্থীর নাম *</label>
+                <input type="text" id="inqName" required placeholder="আপনার পূর্ণ নাম লিখুন" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-udvash-red" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর *</label>
+                <input type="tel" id="inqPhone" required placeholder="017XXXXXXXX" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-udvash-red" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">আগ্রহী শ্রেণি / প্রোগ্রাম</label>
+              <select id="inqProgram" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:border-udvash-red">
+                <option>HSC Academic / Model Test 2026</option>
+                <option>Medical / Engineering / Varsity Admission 2026</option>
+                <option>SSC / Class 9-10 Science Program</option>
+                <option>Class 6 - 8 Academic &amp; Foundation</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">আপনার প্রশ্ন বা বার্তা</label>
+              <textarea id="inqMessage" rows="3" placeholder="কোর্স ফি, রুটিন বা বই কুরিয়ার সম্পর্কে জানতে লিখুন..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-udvash-red"></textarea>
+            </div>
+            <button type="submit" class="px-6 py-3 rounded-xl bg-udvash-red hover:bg-udvash-redDark text-white font-bold text-sm shadow transition">
+              তথ্য পাঠান (Send Message)
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- UDVASH-UNMESH STYLE DARK NAVY FOOTER                      -->
+  <!-- ========================================================= -->
+  <footer class="bg-udvash-navyDark text-slate-300 border-t-4 border-udvash-red mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+        <!-- Brand & Address -->
+        <div class="lg:col-span-2 space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-udvash-red flex items-center justify-center text-white font-extrabold font-en text-lg shadow">
+              HS
+            </div>
+            <div>
+              <div class="text-xl font-extrabold text-white font-en">Hridoy Saha Shawon</div>
+              <div class="text-xs text-amber-400 font-semibold">হৃদয় সাহা শাওন • অনলাইন একাডেমিক ও এডমিশন কেয়ার</div>
+            </div>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed max-w-lg">
+            আধুনিক ডিজিটাল লার্নিং সিস্টেম, ইন্টারেক্টিভ লাইভ ক্লাস, ডেইলি ও উইকলি এক্সাম, সেন্ট্রাল মেরিট লিস্ট এবং প্রিন্টেড লেকচার শিটের সমন্বয়ে গঠিত পূর্ণাঙ্গ অনলাইন শিক্ষা পোর্টাল।
+          </p>
+          <div class="pt-1 space-y-1.5 text-sm">
+            <p class="text-white font-bold">
+              হেল্পলাইন: <a href="tel:01706631550" class="text-amber-400 font-en hover:underline">01706631550</a> / <a href="tel:+8801706631550" class="text-amber-400 font-en hover:underline">+880 1706-631550</a>
+            </p>
+            <p class="text-slate-300">
+              ঠিকানা: <span class="text-white font-medium">Dhukuria, Shiyalkhol Union, Sirajganj Sadar, Sirajganj, Bangladesh</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-bold text-base mb-3">গুরুত্বপূর্ণ লিংক</h4>
+          <ul class="space-y-2 text-sm">
+            <li><button type="button" onclick="switchMainSection('programs'); filterByClass(12);" class="hover:text-amber-400 transition">HSC প্রোগ্রামসমূহ (Class 11-12)</button></li>
+            <li><button type="button" onclick="switchMainSection('programs'); filterByClass(13);" class="hover:text-amber-400 transition">এডমিশন প্রোগ্রাম (Eng/Med/Varsity)</button></li>
+            <li><button type="button" onclick="switchMainSection('programs'); filterByClass(10);" class="hover:text-amber-400 transition">SSC ও নবম-দশম শ্রেণি</button></li>
+            <li><button type="button" onclick="switchMainSection('routine');" class="hover:text-amber-400 transition">ক্লাস ও এক্সাম রুটিন</button></li>
+            <li><button type="button" onclick="switchMainSection('liveexam');" class="hover:text-amber-400 transition">লাইভ MCQ এক্সাম পোর্টাল</button></li>
+          </ul>
+        </div>
+
+        <!-- Support & Payment Methods -->
+        <div>
+          <h4 class="text-white font-bold text-base mb-3">পেমেন্ট ও সাপোর্ট</h4>
+          <p class="text-xs text-slate-400 mb-3">নিরাপদ অনলাইন পেমেন্ট মাধ্যমসমূহ:</p>
+          <div class="flex flex-wrap gap-2 mb-4 font-en text-xs font-bold">
+            <span class="px-2.5 py-1 rounded bg-pink-600 text-white">bKash</span>
+            <span class="px-2.5 py-1 rounded bg-orange-600 text-white">Nagad</span>
+            <span class="px-2.5 py-1 rounded bg-purple-700 text-white">Rocket</span>
+            <span class="px-2.5 py-1 rounded bg-blue-600 text-white">VISA / Card</span>
+          </div>
+          <button type="button" onclick="openStudentPortal()" class="w-full py-2.5 px-4 rounded-xl bg-udvash-red hover:bg-udvash-redDark text-white font-bold text-sm transition">
+            স্টুডেন্ট পোর্টাল লগইন
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
+        <p>© ২০২৬ <strong class="text-white font-en">Hridoy Saha Shawon</strong> (হৃদয় সাহা শাওন). সর্বস্বত্ব সংরক্ষিত।</p>
+        <p class="font-en">Helpline: 01706631550 • Sirajganj Sadar, Sirajganj, Bangladesh</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 1: UDVASH-STYLE PROGRAM DETAILS & ROUTINE MODAL     -->
+  <!-- ========================================================= -->
+  <div id="detailsModal" class="fixed inset-0 z-50 hidden bg-slate-950/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200">
+      <div id="detailsBannerHeader"></div>
+
+      <div class="p-5 sm:p-7 space-y-5">
+        <div class="flex items-start justify-between gap-3 border-b border-slate-200 pb-4">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+              <span id="detClassBadge" class="px-2.5 py-0.5 rounded bg-udvash-redLight text-udvash-red text-xs font-bold"></span>
+              <span id="detTypeBadge" class="px-2.5 py-0.5 rounded bg-slate-100 text-slate-700 text-xs font-bold"></span>
+            </div>
+            <h3 id="detTitle" class="text-xl sm:text-2xl font-extrabold text-udvash-navy"></h3>
+            <p id="detSubTitle" class="text-xs sm:text-sm text-slate-500 font-en mt-0.5"></p>
+          </div>
+          <button type="button" onclick="closeModal('detailsModal')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold shrink-0">✕</button>
+        </div>
+
+        <!-- Key Stats Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
+          <div>
+            <div class="text-[11px] text-slate-500 font-semibold">ক্লাস শুরু</div>
+            <div id="detStartDate" class="text-sm font-extrabold text-udvash-navy mt-0.5"></div>
+          </div>
+          <div>
+            <div class="text-[11px] text-slate-500 font-semibold">মোট লাইভ ক্লাস</div>
+            <div id="detClassCount" class="text-sm font-extrabold text-udvash-navy mt-0.5"></div>
+          </div>
+          <div>
+            <div class="text-[11px] text-slate-500 font-semibold">মোট পরীক্ষা</div>
+            <div id="detExamCount" class="text-sm font-extrabold text-udvash-navy mt-0.5"></div>
+          </div>
+          <div>
+            <div class="text-[11px] text-slate-500 font-semibold">কোর্স ফি</div>
+            <div id="detFeeText" class="text-base font-extrabold text-udvash-red mt-0.5"></div>
+          </div>
+        </div>
+
+        <!-- Description & Features -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-base text-udvash-navy border-l-4 border-udvash-red pl-2.5">প্রোগ্রামের বিস্তারিত বৈশিষ্ট্য ও সেবাসমূহ</h4>
+          <p id="detDescription" class="text-sm text-slate-600 leading-relaxed"></p>
+          <ul id="detFeatureList" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700 pt-1"></ul>
+        </div>
+
+        <!-- Sample Syllabus & Routine Preview -->
+        <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-sm text-amber-900">ক্লাস ও এক্সাম রুটিন সারসংক্ষেপ</h4>
+            <span id="detShiftsText" class="text-xs font-bold text-amber-800"></span>
+          </div>
+          <p id="detSyllabusText" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
+        </div>
+
+        <!-- Bottom Action Bar -->
+        <div class="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div class="text-xs text-slate-600">
+            যেকোনো তথ্যে কল করুন: <a href="tel:01706631550" class="font-bold text-udvash-red font-en text-sm hover:underline">01706631550</a>
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button type="button" id="detDemoBtn" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm transition">
+              ফ্রি ক্লাস দেখুন
+            </button>
+            <button type="button" id="detEnrollBtn" class="px-6 py-2.5 rounded-xl bg-udvash-red hover:bg-udvash-redDark text-white font-bold text-sm shadow transition">
+              এখনই ভর্তি হোন (Enroll Now)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 2: ENROLLMENT & PAYMENT CHECKOUT + RECEIPT MODAL    -->
+  <!-- ========================================================= -->
+  <div id="enrollModal" class="fixed inset-0 z-50 hidden bg-slate-950/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200 p-5 sm:p-7 space-y-5">
+      <div class="flex items-start justify-between gap-3 border-b border-slate-200 pb-4">
+        <div>
+          <span class="text-xs font-bold bg-udvash-redLight text-udvash-red px-2.5 py-0.5 rounded">অনলাইন ভর্তি ও পেমেন্ট গেটওয়ে</span>
+          <h3 id="enrProgramTitle" class="text-lg sm:text-xl font-extrabold text-udvash-navy mt-1.5"></h3>
+          <p class="text-xs text-slate-500 mt-0.5">Hridoy Saha Shawon • হেল্পলাইন: <strong class="font-en text-slate-800">01706631550</strong></p>
+        </div>
+        <button type="button" onclick="closeModal('enrollModal')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">✕</button>
+      </div>
+
+      <!-- Enrollment Form -->
+      <form id="enrollForm" onsubmit="completeEnrollment(event)" class="space-y-4">
+        <input type="hidden" id="enrProgramId" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষার্থীর পূর্ণ নাম (Student Name) *</label>
+            <input type="text" id="enrStudentName" required placeholder="যেমন: তানভীর আহমেদ" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-udvash-red" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষার্থীর মোবাইল নম্বর *</label>
+            <input type="tel" id="enrStudentPhone" required placeholder="017XXXXXXXX" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-udvash-red" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষাপ্রতিষ্ঠানের নাম (School/College) *</label>
+            <input type="text" id="enrInstitution" required placeholder="যেমন: সিরাজগঞ্জ সরকারি কলেজ" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-udvash-red" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">পছন্দের ব্যাচ শিফট নির্বাচন করুন</label>
+            <select id="enrBatchShift" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:border-udvash-red">
+              <option value="সকালের ব্যাচ (১০:০০ AM)">সকালের ব্যাচ (১০:০০ AM)</option>
+              <option value="বিকালের ব্যাচ (০৪:৩০ PM)">বিকালের ব্যাচ (০৪:৩০ PM)</option>
+              <option value="সন্ধ্যার লাইভ ব্যাচ (০৭:৩০ PM)" selected>সন্ধ্যার লাইভ ব্যাচ (০৭:৩০ PM)</option>
+              <option value="রাতের ব্যাচ (০৯:০০ PM)">রাতের ব্যাচ (০৯:০০ PM)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">প্রিন্টেড লেকচার শিট কুরিয়ার ঠিকানা (Optional)</label>
+          <input type="text" id="enrDeliveryAddr" placeholder="বাসা/গ্রাম, থানা, জেলা (যেমন: সিরাজগঞ্জ সদর, সিরাজগঞ্জ)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-udvash-red" />
+        </div>
+
+        <!-- Promo Code + Payment Method -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">প্রোমো কোড (ব্যবহার করুন: <span class="font-en text-udvash-red">SHAWON10</span>)</label>
+            <div class="flex gap-2">
+              <input type="text" id="enrPromoInput" placeholder="SHAWON10" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm font-en uppercase" />
+              <button type="button" onclick="applyPromoCode()" class="px-3.5 py-2 rounded-xl bg-udvash-navy text-white text-xs font-bold hover:bg-udvash-navyDark shrink-0">Apply</button>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">পেমেন্ট মাধ্যম নির্বাচন করুন</label>
+            <select id="enrPaymentMethod" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white font-semibold">
+              <option value="bKash Merchant">bKash (বিকাশ অনলাইন পেমেন্ট)</option>
+              <option value="Nagad">Nagad (নগদ পেমেন্ট)</option>
+              <option value="Rocket">Rocket (রকেট)</option>
+              <option value="SSLCommerz Card">Debit / Credit Card (SSLCommerz)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Fee Summary Card -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <div class="text-xs text-slate-500 font-semibold">সর্বমোট প্রদেয় কোর্স ফি (Total Payable)</div>
+            <div class="flex items-baseline gap-2 mt-0.5">
+              <span id="enrPayableAmount" class="text-2xl font-extrabold text-udvash-red font-en">৳ 0</span>
+              <span id="enrRegularAmount" class="text-xs text-slate-400 line-through font-en"></span>
+              <span id="enrDiscountNote" class="text-xs font-bold text-emerald-600"></span>
+            </div>
+          </div>
+          <div class="text-right text-[11px] text-slate-500">
+            <div class="font-bold text-udvash-navy font-en">Hridoy Saha Shawon</div>
+            <div>Sirajganj, Bangladesh</div>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-udvash-red hover:bg-udvash-redDark text-white font-extrabold text-sm sm:text-base shadow-md transition">
+          পেমেন্ট সম্পন্ন করুন ও ভর্তি নিশ্চিত করুন
+        </button>
+      </form>
+
+      <!-- Printable Official Admission Money Receipt -->
+      <div id="receiptPrintArea" class="hidden border-2 border-udvash-teal bg-teal-50/30 rounded-2xl p-5 space-y-3">
+        <div class="flex items-center justify-between border-b border-teal-200 pb-3">
+          <div>
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-udvash-teal">Official Admission Money Receipt</span>
+            <h4 class="text-lg font-extrabold text-udvash-navy font-en">Hridoy Saha Shawon (হৃদয় সাহা শাওন)</h4>
+            <p class="text-[11px] text-slate-600">Dhukuria, Shiyalkhol Union, Sirajganj Sadar, Sirajganj • Helpline: 01706631550</p>
+          </div>
+          <span id="receiptRollBadge" class="px-3 py-1 rounded-lg bg-udvash-navy text-amber-300 font-en font-extrabold text-xs"></span>
+        </div>
+        <div id="receiptContentGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-800"></div>
+        <div class="pt-3 border-t border-teal-200 flex flex-wrap items-center justify-between gap-2">
+          <button type="button" onclick="window.print()" class="px-4 py-2 rounded-lg bg-udvash-navy text-white text-xs font-bold hover:bg-udvash-navyDark">
+            রসিদ প্রিন্ট / PDF সেভ করুন
+          </button>
+          <button type="button" onclick="closeModal('enrollModal'); openStudentPortal();" class="px-4 py-2 rounded-lg bg-udvash-red text-white text-xs font-bold hover:bg-udvash-redDark">
+            স্টুডেন্ট পোর্টালে কোর্স দেখুন →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 3: FREE CLASS VIDEO & LECTURE SLIDE PLAYER MODAL    -->
+  <!-- ========================================================= -->
+  <div id="demoPlayerModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200 p-5 sm:p-7 space-y-5">
+      <div class="flex items-start justify-between gap-3 border-b border-slate-200 pb-3">
+        <div>
+          <span class="text-xs font-bold bg-teal-50 text-udvash-teal px-2.5 py-0.5 rounded">ফ্রি ডেমো ক্লাস ও লেকচার স্লাইড</span>
+          <h3 id="demoModalTitle" class="text-lg sm:text-xl font-extrabold text-udvash-navy mt-1"></h3>
+        </div>
+        <button type="button" onclick="closeModal('demoPlayerModal')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">✕</button>
+      </div>
+
+      <!-- Simulated Interactive Smartboard Class Player -->
+      <div class="bg-slate-900 rounded-2xl p-5 sm:p-7 text-white space-y-4 border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
+          <span class="px-2.5 py-1 rounded bg-udvash-red text-white font-bold font-en">Hridoy Saha Shawon Smart Class</span>
+          <span id="demoTeacherLabel" class="font-semibold text-amber-300"></span>
+        </div>
+
+        <div class="py-4 text-center space-y-2.5">
+          <button type="button" onclick="toggleDemoPlay()" class="w-16 h-16 rounded-full bg-udvash-red hover:bg-udvash-redDark text-white flex items-center justify-center mx-auto shadow-lg transition">
+            <span id="demoPlayIcon" class="text-2xl ml-0.5">▶</span>
+          </button>
+          <h4 id="demoTopicHeading" class="text-lg sm:text-xl font-bold text-white"></h4>
+          <p id="demoSummaryText" class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed"></p>
+        </div>
+
+        <!-- Progress Scrubber -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between text-xs text-slate-400 font-en">
+            <span id="demoStatusLabel">Paused • Click Play to Simulate Lecture</span>
+            <span>24:30 / 45:00 HD</span>
+          </div>
+          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div id="demoBarFill" class="h-full w-1/2 bg-gradient-to-r from-udvash-red to-amber-400 transition-all duration-500"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <span class="text-xs text-slate-600">ভর্তি ও রুটিন জানতে কল করুন: <strong class="font-en text-udvash-red">01706631550</strong></span>
+        <button type="button" id="demoEnrollNowBtn" class="px-5 py-2.5 rounded-xl bg-udvash-red hover:bg-udvash-redDark text-white font-bold text-sm transition">
+          এই কোর্সে ভর্তি হোন
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 4: STUDENT PORTAL & ENROLLED DASHBOARD              -->
+  <!-- ========================================================= -->
+  <div id="studentPortalModal" class="fixed inset-0 z-50 hidden bg-slate-950/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 p-5 sm:p-7 space-y-5">
+      <div class="flex items-start justify-between gap-3 border-b border-slate-200 pb-4">
+        <div>
+          <span class="text-xs font-bold bg-udvash-navy text-amber-300 px-2.5 py-0.5 rounded font-en">Hridoy Saha Shawon • Student Portal</span>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-udvash-navy mt-1.5">আমার ভর্তিকৃত প্রোগ্রাম ও রেজাল্ট ড্যাশবোর্ড</h3>
+          <p class="text-xs text-slate-500 mt-0.5">হেল্পলাইন: <strong class="font-en text-slate-800">01706631550</strong> • Dhukuria, Shiyalkhol Union, Sirajganj Sadar, Sirajganj</p>
+        </div>
+        <button type="button" onclick="closeModal('studentPortalModal')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">✕</button>
+      </div>
+
+      <div id="portalEnrolledContainer" class="space-y-3">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div id="portalExamHistoryContainer" class="space-y-2 pt-2">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 5: QUICK NOTICE POPUP MODAL                         -->
+  <!-- ========================================================= -->
+  <div id="noticeModal" class="fixed inset-0 z-50 hidden bg-slate-950/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="text-lg font-extrabold text-udvash-navy">জরুরি একাডেমিক নোটিশ</h3>
+        <button type="button" onclick="closeModal('noticeModal')" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold">✕</button>
+      </div>
+      <div class="space-y-3 text-sm text-slate-700">
+        <div class="p-3.5 rounded-xl bg-udvash-redLight border border-udvash-red/20">
+          <div class="font-bold text-udvash-red">HSC 2026 ও Admission 2026 নতুন ব্যাচে ভর্তি চলছে!</div>
+          <p class="text-xs text-slate-600 mt-1">অনলাইন ও কম্বো প্রোগ্রামে বিশেষ ছাড়ে ভর্তি চলছে। প্রিন্টেড লেকচার শিট কুরিয়ার পেতে এখনই এনরোল করুন অথবা কল করুন: <strong class="font-en">01706631550</strong>।</p>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-bold text-udvash-navy">প্রতি শুক্রবার ফ্রি মেগা ওরিয়েন্টেশন ও মডেল টেস্ট</div>
+          <p class="text-xs text-slate-600 mt-1">সকল শ্রেণির শিক্ষার্থীরা আমাদের লাইভ MCQ এক্সাম পোর্টালে অংশ নিয়ে সেন্ট্রাল মেরিট পজিশন দেখতে পারবে।</p>
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <button type="button" onclick="closeModal('noticeModal')" class="px-5 py-2 rounded-xl bg-udvash-navy text-white font-bold text-sm">বন্ধ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * Exact Udvash-Unmesh Class & Program Type Filters + Complete Course Catalog
+     * Customized exclusively with:
+     * - Brand: Hridoy Saha Shawon (হৃদয় সাহা শাওন)
+     * - Phone: 01706631550
+     * - Address: Dhukuria, Shiyalkhol Union, Sirajganj Sadar, Sirajganj, Bangladesh
+     */
+    const CLASS_FILTERS = [
+      { id: 0, label: 'সকল শ্রেণি (All)', en: 'classId=0' },
+      { id: 6, label: '৬ষ্ঠ শ্রেণি (Class 6)' },
+      { id: 7, label: '৭ম শ্রেণি (Class 7)' },
+      { id: 8, label: '৮ম শ্রেণি (Class 8)' },
+      { id: 9, label: '৯ম শ্রেণি (Class 9)' },
+      { id: 10, label: '১০ম / SSC' },
+      { id: 11, label: '১১শ / HSC 1st Year' },
+      { id: 12, label: '১২শ / HSC 2nd Year' },
+      { id: 13, label: 'ইঞ্জিনিয়ারিং এডমিশন' },
+      { id: 14, label: 'মেডিকেল এডমিশন' },
+      { id: 15, label: 'ভার্সিটি ‘ক’ ও গুচ্ছ' }
+    ];
+
+    const PROGRAM_TYPE_FILTERS = [
+      { id: 0, label: 'সকল প্রোগ্রাম (All)' },
+      { id: 1, label: 'একাডেমিক প্রোগ্রাম' },
+      { id: 2, label: 'মডেল টেস্ট ও রিভিশন' },
+      { id: 3, label: 'এডমিশন প্রোগ্রাম' },
+      { id: 4, label: 'স্পেশাল / ক্র্যাশ কোর্স' },
+      { id: 5, label: 'ফ্রি ওরিয়েন্টেশন' }
+    ];
+
+    const COURSES_CATALOG = [
+      {
+        id: 'hsc-2nd-academic-2026',
+        titleBn: 'এইচএসসি ২য় বর্ষ একাডেমিক প্রোগ্রাম ২০২৬ (বিজ্ঞান)',
+        titleEn: 'HSC 2nd Year Academic Program 2026 (Science)',
+        classId: 12,
+        classLabel: '১২শ / HSC 2nd Year',
+        programType: 1,
+        typeLabel: 'একাডেমিক প্রোগ্রাম',
+        bannerGradient: 'from-[#990F26] via-[#C8102E] to-[#1B2A4A]',
+        sessionTag: 'HSC 2026 • অনলাইন ও কম্বো',
+        discountRibbon: '২৫% ছাড়',
+        startDate: '০১ ডিসেম্বর, ২০২৬',
+        liveClasses: '১৮০+ লাইভ ক্লাস',
+        examsCount: '৭৫+ ডেইলি ও উইকলি এক্সাম',
+        regularFee: 4800,
+        discountedFee: 3600,
+        shifts: 'সকাল ১০:০০ | বিকাল ০৪:৩০ | সন্ধ্যা ০৭:৩০',
+        featured: true,
+        highlights: [
+          'পদার্থবিজ্ঞান, রসায়ন, উচ্চতর গণিত, জীববিজ্ঞান ও ICT সম্পূর্ণ সিলেবাস',
+          'প্রতিটি ক্লাসের স্মার্টবোর্ড PDF নোট ও রেকর্ডেড ভিডিও আর্কাইভ',
+          'প্রিন্টেড প্যারালাল টেক্সট ও মাস্টার প্রশ্নব্যাংক কুরিয়ার সুবিধা',
+          'সেন্ট্রাল মেরিট লিস্ট, SMS রেজাল্ট ও ২৪/৭ Q&A সার্ভিস'
+        ],
+        syllabusSummary: 'HSC বোর্ড পরীক্ষার পূর্ণাঙ্গ প্রস্তুতির লক্ষ্যে প্রতিটি অধ্যায়ের বেসিক কনসেপ্ট, গাণিতিক সমস্যা সমাধান, সৃজনশীল (CQ) ও বহুনির্বাচনি (MCQ) অনুশীলন।'
+      },
+      {
+        id: 'hsc-final-model-test-2026',
+        titleBn: 'এইচএসসি ফাইনাল রিভিশন ও মডেল টেস্ট ২০২৬',
+        titleEn: 'HSC Final Revision & Model Test Program 2026',
+        classId: 12,
+        classLabel: '১২শ / HSC 2nd Year',
+        programType: 2,
+        typeLabel: 'মডেল টেস্ট ও রিভিশন',
+        bannerGradient: 'from-[#1B2A4A] via-[#263E70] to-[#0F766E]',
+        sessionTag: 'HSC 2026 • বোর্ড স্ট্যান্ডার্ড',
+        discountRibbon: 'জনপ্রিয় ব্যাচ',
+        startDate: '০৫ ডিসেম্বর, ২০২৬',
+        liveClasses: '৬০+ সল্যুশন ও রিভিশন ক্লাস',
+        examsCount: '৫০টি পূর্ণাঙ্গ মডেল টেস্ট',
+        regularFee: 2500,
+        discountedFee: 1800,
+        shifts: 'বিকাল ০৪:৩০ | রাত ০৮:৩০',
+        featured: true,
+        highlights: [
+          'সকল বোর্ডের প্রশ্ন বিশ্লেষণভিত্তিক অধ্যায়ভিত্তিক ও পেপার ফাইনাল এক্সাম',
+          'প্রতিটি পরীক্ষার পর লাইভ সল্যুশন ক্লাস ও উত্তরপত্র মূল্যায়ন',
+          'প্রিন্টেড ফাইনাল মডেল টেস্ট ও সল্যুশন বুক কুরিয়ার সুবিধা',
+          'নিজের দুর্বল টপিক চিহ্নিত করার পারফরম্যান্স অ্যানালিটিক্স'
+        ],
+        syllabusSummary: 'বোর্ড পরীক্ষার ঠিক আগে পূর্ণ সিলেবাসের ওপর দ্রুত রিভিশন, CQ লেখার কৌশল এবং টাইম ম্যানেজমেন্ট দক্ষতা অর্জনের বিশেষ প্রোগ্রাম।'
+      },
+      {
+        id: 'engineering-admission-2026',
+        titleBn: 'ইঞ্জিনিয়ারিং + বায়োলজি এডমিশন প্রোগ্রাম ২০২৬',
+        titleEn: 'Engineering + Biology Admission Program 2026 (BUET/CKRUET/IUT)',
+        classId: 13,
+        classLabel: 'ইঞ্জিনিয়ারিং এডমিশন',
+        programType: 3,
+        typeLabel: 'এডমিশন প্রোগ্রাম',
+        bannerGradient: 'from-[#0F172A] via-[#1E3A8A] to-[#C8102E]',
+        sessionTag: 'BUET • CKRUET • IUT • MIST',
+        discountRibbon: 'টপ রেটেড',
+        startDate: '১০ ডিসেম্বর, ২০২৬',
+        liveClasses: '২২০+ ইঞ্জিনিয়ারিং স্ট্যান্ডার্ড ক্লাস',
+        examsCount: '৯০+ রিটেন ও MCQ এক্সাম',
+        regularFee: 6500,
+        discountedFee: 4900,
+        shifts: 'সকাল ১০:০০ | সন্ধ্যা ০৭:৩০ | রাত ০৯:০০',
+        featured: true,
+        highlights: [
+          'BUET, CKRUET ও IUT ভর্তি পরীক্ষার অনুরূপ রিটেন ও MCQ পরীক্ষা পদ্ধতি',
+          '১২টি প্রিন্টেড ইঞ্জিনিয়ারিং কনসেপ্ট বুক ও প্রশ্নব্যাংক সেট',
+          'জটিল গাণিতিক সমস্যার মাল্টি-কনসেপ্ট সমাধান কৌশল',
+          'কেন্দ্রীয় মেধাতালিকা ও সার্বক্ষণিক মেন্টর সাপোর্ট (01706631550)'
+        ],
+        syllabusSummary: 'Physics, Chemistry ও Higher Math-এর উচ্চতর গাণিতিক বিশ্লেষণ এবং সাথে মেডিকেল/ভার্সিটি ব্যাকআপ হিসেবে বায়োলজি প্রিপারেশন।'
+      },
+      {
+        id: 'medical-admission-2026',
+        titleBn: 'মেডিকেল ও ডেন্টাল এডমিশন প্রোগ্রাম ২০২৬',
+        titleEn: 'Medical & Dental Admission Master Program 2026',
+        classId: 14,
+        classLabel: 'মেডিকেল এডমিশন',
+        programType: 3,
+        typeLabel: 'এডমিশন প্রোগ্রাম',
+        bannerGradient: 'from-[#064E3B] via-[#0F766E] to-[#1B2A4A]',
+        sessionTag: 'Medical • Dental • AFMC',
+        discountRibbon: '২৫% ছাড়',
+        startDate: '১০ ডিসেম্বর, ২০২৬',
+        liveClasses: '২০০+ লাইভ ক্লাস (Bio, Chem, Phy, GK, Eng)',
+        examsCount: '১০০+ নেগেটিভ মার্কিং MCQ এক্সাম',
+        regularFee: 5800,
+        discountedFee: 4350,
+        shifts: 'বিকাল ০৪:৩০ | সন্ধ্যা ০৭:৩০',
+        featured: true,
+        highlights: [
+          'মূল পাঠ্যবইয়ের প্রতিটি লাইন ধরে দাগানো বই ও হাই-ইল্ড নোট',
+          '১০০ নম্বরের মেডিকেল স্ট্যান্ডার্ড MCQ এক্সাম (-০.২৫ নেগেটিভ মার্কিংসহ)',
+          'মেডিকেল ডাইজেস্ট, সাধারণ জ্ঞান (GK) ও ইংরেজি প্রিন্টেড বই সেট',
+          'ডেইলি মেরিট লিস্ট ও পার্সোনাল মিস্টেক ট্র্যাকার'
+        ],
+        syllabusSummary: 'জীববিজ্ঞান, রসায়ন, পদার্থবিজ্ঞান, সাধারণ জ্ঞান ও ইংরেজির সমন্বয়ে সরকারি মেডিকেল ও ডেন্টাল কলেজে চান্স পাওয়ার পূর্ণাঙ্গ দিকনির্দেশনা।'
+      },
+      {
+        id: 'varsity-ka-gst-2026',
+        titleBn: 'ভার্সিটি ‘ক’ ইউনিট ও গুচ্ছ (GST) এডমিশন প্রোগ্রাম ২০২৬',
+        titleEn: 'Varsity Ka Unit & GST Admission Program 2026 (DU/RU/JU/CU)',
+        classId: 15,
+        classLabel: 'ভার্সিটি ‘ক’ ও গুচ্ছ',
+        programType: 3,
+        typeLabel: 'এডমিশন প্রোগ্রাম',
+        bannerGradient: 'from-[#312E81] via-[#4338CA] to-[#C8102E]',
+        sessionTag: 'DU ‘Ka’ • GST • RU • JU • CU',
+        discountRibbon: 'কম্বো ব্যাচ',
+        startDate: '১২ ডিসেম্বর, ২০২৬',
+        liveClasses: '১৬৫+ শর্টকাট ও রিটেন ক্লাস',
+        examsCount: '৭০+ MCQ + রিটেন মডেল টেস্ট',
+        regularFee: 4500,
+        discountedFee: 3200,
+        shifts: 'সন্ধ্যা ০৭:৩০ | রাত ০৯:০০',
+        featured: true,
+        highlights: [
+          'ঢাকা বিশ্ববিদ্যালয় ‘ক’ ইউনিটের অনুরূপ MCQ + Written মডেল টেস্ট',
+          'ক্যালকুলেটর ছাড়া দ্রুত গাণিতিক সমাধানের স্পেশাল টেকনিক',
+          'ভার্সিটি ‘ক’ প্রশ্নব্যাংক ও রিটেন প্র্যাকটিস বুক কুরিয়ার সুবিধা',
+          'সকল বিশ্ববিদ্যালয়ের ভর্তি পরীক্ষার আপডেট ও গাইডলাইন'
+        ],
+        syllabusSummary: 'ঢাবি ‘ক’ ইউনিট, গুচ্ছভুক্ত বিশ্ববিদ্যালয়, রাবি, জাবি ও চবি ভর্তি পরীক্ষার জন্য বিষয়ভিত্তিক প্রস্তুতি ও পূর্ণাঙ্গ মডেল টেস্ট।'
+      },
+      {
+        id: 'hsc-1st-year-academic',
+        titleBn: 'এইচএসসি ১ম বর্ষ একাডেমিক প্রোগ্রাম (বিজ্ঞান বিভাগ)',
+        titleEn: 'HSC 1st Year Academic Program (Science Group)',
+        classId: 11,
+        classLabel: '১১শ / HSC 1st Year',
+        programType: 1,
+        typeLabel: 'একাডেমিক প্রোগ্রাম',
+        bannerGradient: 'from-[#B91C1C] via-[#1B2A4A] to-[#0F766E]',
+        sessionTag: 'HSC 2027 • ফাউন্ডেশন + বোর্ড',
+        discountRibbon: 'নতুন ব্যাচ',
+        startDate: '০১ ডিসেম্বর, ২০২৬',
+        liveClasses: '১৯০+ লাইভ ক্লাস',
+        examsCount: '৬৫+ ডেইলি ও উইকলি এক্সাম',
+        regularFee: 4500,
+        discountedFee: 3400,
+        shifts: 'বিকাল ০৪:৩০ | সন্ধ্যা ০৭:৩০',
+        featured: true,
+        highlights: [
+          'কলেজ জীবনের শুরু থেকেই বোর্ড ও এডমিশনের শক্ত ভিত্তি তৈরি',
+          'প্রতিটি অধ্যায়ের প্যারালাল টেক্সট বুক ও ফর্মুলা হ্যান্ডবুক',
+          'সাপ্তাহিক CQ ও MCQ পরীক্ষার মাধ্যমে নিয়মিত মূল্যায়ন',
+          'অভিভাবকদের মোবাইলে নিয়মিত উপস্থিতি ও রেজাল্ট SMS'
+        ],
+        syllabusSummary: 'একাদশ শ্রেণির পদার্থবিজ্ঞান ১ম পত্র, রসায়ন ১ম পত্র, উচ্চতর গণিত ১ম পত্র, জীববিজ্ঞান ও ICT বিষয়ের বেসিক থেকে অ্যাডভান্সড প্রস্তুতি।'
+      },
+      {
+        id: 'ssc-final-model-test-2026',
+        titleBn: 'এসএসসি ফাইনাল রিভিশন ও মডেল টেস্ট ২০২৬ (বিজ্ঞান)',
+        titleEn: 'SSC Final Revision & Model Test Program 2026 (Science)',
+        classId: 10,
+        classLabel: '১০ম / SSC',
+        programType: 2,
+        typeLabel: 'মডেল টেস্ট ও রিভিশন',
+        bannerGradient: 'from-[#0F766E] via-[#1B2A4A] to-[#C8102E]',
+        sessionTag: 'SSC 2026 • A+ নিশ্চিতকরণ ব্যাচ',
+        discountRibbon: '৩০% ছাড়',
+        startDate: '০৩ ডিসেম্বর, ২০২৬',
+        liveClasses: '৭৫+ রিভিশন ও সল্যুশন ক্লাস',
+        examsCount: '৪৫টি বোর্ড স্ট্যান্ডার্ড মডেল টেস্ট',
+        regularFee: 2400,
+        discountedFee: 1650,
+        shifts: 'বিকাল ০৪:৩০ | সন্ধ্যা ০৭:৩০',
+        featured: true,
+        highlights: [
+          'সাধারণ গণিত, উচ্চতর গণিত, পদার্থ, রসায়ন, জীববিজ্ঞান ও ইংরেজি রিভিশন',
+          'সকল বোর্ডের বিগত বছরের প্রশ্ন বিশ্লেষণ ও সাজেশন ক্লাস',
+          'প্রিন্টেড মডেল টেস্ট প্রশ্ন ও সল্যুশন বই কুরিয়ার সুবিধা',
+          'প্রতিটি পরীক্ষার কেন্দ্রীয় মেধাতালিকা ও সল্যুশন PDF'
+        ],
+        syllabusSummary: 'SSC বোর্ড পরীক্ষায় গোল্ডেন A+ নিশ্চিত করতে পূর্ণাঙ্গ সিলেবাসের ওপর সুপার রিভিশন এবং বোর্ড অনুরূপ ফাইনাল মডেল টেস্ট।'
+      },
+      {
+        id: 'class-10-academic-science',
+        titleBn: '১০ম শ্রেণি একাডেমিক প্রোগ্রাম (বিজ্ঞান বিভাগ)',
+        titleEn: 'Class 10 Complete Science Academic Program',
+        classId: 10,
+        classLabel: '১০ম / SSC',
+        programType: 1,
+        typeLabel: 'একাডেমিক প্রোগ্রাম',
+        bannerGradient: 'from-[#1B2A4A] via-[#990F26] to-[#B45309]',
+        sessionTag: 'Class 10 • পূর্ণাঙ্গ প্রস্তুতি',
+        discountRibbon: '২০% ছাড়',
+        startDate: '০৫ ডিসেম্বর, ২০২৬',
+        liveClasses: '১৫০+ লাইভ ক্লাস',
+        examsCount: '৫৫+ উইকলি ও মাসিক এক্সাম',
+        regularFee: 3200,
+        discountedFee: 2500,
+        shifts: 'বিকাল ০৪:৩০ | সন্ধ্যা ০৭:৩০',
+        featured: false,
+        highlights: [
+          'পাঠ্যবইয়ের প্রতিটি অধ্যায়ের সহজবোধ্য ব্যাখ্যা ও সৃজনশীল অনুশীলন',
+          'গণিত ও বিজ্ঞানের জটিল টপিকের ভিজ্যুয়াল প্রেজেন্টেশন',
+          'প্রিন্টেড লেকচার শিট ও অধ্যায়ভিত্তিক প্রশ্নব্যাংক',
+          'সার্বক্ষণিক ডাউট সলভ ও হেল্পলাইন সাপোর্ট (01706631550)'
+        ],
+        syllabusSummary: 'দশম শ্রেণির টেস্ট ও এসএসসি বোর্ড পরীক্ষার সম্পূর্ণ সিলেবাস কভার করার লক্ষ্যে সুপরিকল্পিত একাডেমিক ব্যাচ।'
+      },
+      {
+        id: 'class-9-academic-program',
+        titleBn: '৯ম শ্রেণি একাডেমিক প্রোগ্রাম (বিজ্ঞান, গণিত ও ইংরেজি)',
+        titleEn: 'Class 9 Academic & Foundation Program',
+        classId: 9,
+        classLabel: '৯ম শ্রেণি (Class 9)',
+        programType: 1,
+        typeLabel: 'একাডেমিক প্রোগ্রাম',
+        bannerGradient: 'from-[#4C1D95] via-[#1B2A4A] to-[#0F766E]',
+        sessionTag: 'Class 9 • স্মার্ট ফাউন্ডেশন',
+        discountRibbon: '২৫% ছাড়',
+        startDate: '০৭ ডিসেম্বর, ২০২৬',
+        liveClasses: '১৪০+ লাইভ ক্লাস',
+        examsCount: '৫০+ কুইজ ও রিটেন এক্সাম',
+        regularFee: 2800,
+        discountedFee: 2100,
+        shifts: 'বিকাল ০৪:৩০ | সন্ধ্যা ০৭:৩০',
+        featured: false,
+        highlights: [
+          'সাধারণ গণিত, উচ্চতর গণিত, বিজ্ঞান, ইংরেজি ও ICT বিষয়সমূহ',
+          'নবম শ্রেণি থেকেই অলিম্পিয়াড ও বোর্ড পরীক্ষার বেসিক গঠন',
+          'সাপ্তাহিক হোমওয়ার্ক মূল্যায়ন ও প্রিন্টেড গাইড শিট',
+          'রেকর্ডেড ক্লাস ও ২৪/৭ Q&A সুবিধা'
+        ],
+        syllabusSummary: 'নবম শ্রেণির শিক্ষার্থীদের মূল কনসেপ্ট পরিষ্কার করা এবং স্কুলের বার্ষিক পরীক্ষার সেরা ফলাফলের জন্য বিশেষ প্রোগ্রাম।'
+      },
+      {
+        id: 'class-8-academic-program',
+        titleBn: '৮ম শ্রেণি একাডেমিক ও স্কলারশিপ ফাউন্ডেশন প্রোগ্রাম',
+        titleEn: 'Class 8 Academic & Junior Scholarship Program',
+        classId: 8,
+        classLabel: '৮ম শ্রেণি (Class 8)',
+        programType: 1,
+        typeLabel: 'একাডেমিক প্রোগ্রাম',
+        bannerGradient: 'from-[#0F766E] via-[#0369A1] to-[#1B2A4A]',
+        sessionTag: 'Class 8 • গণিত, বিজ্ঞান ও ইংরেজি',
+        discountRibbon: 'স্পেশাল ব্যাচ',
+        startDate: '০৮ ডিসেম্বর, ২০২৬',
+        liveClasses: '১২০+ ইন্টারেক্টিভ লাইভ ক্লাস',
+        examsCount: '৪০+ উইকলি মডেল টেস্ট',
+        regularFee: 2200,
+        discountedFee: 1650,
+        shifts: 'বিকাল ০৪:৩০ | সন্ধ্যা ০৭:৩০',
+        featured: false,
+        highlights: [
+          'গণিত, সাধারণ বিজ্ঞান, ইংরেজি গ্রামার ও ICT-তে মজবুত ভিত্তি',
+          'মজার উদাহরণ ও অ্যানিমেশনের মাধ্যমে জটিল অধ্যায় বোঝানো',
+          'প্রিন্টেড ওয়ার্কবুক ও মাসিক প্রোগ্রেস রিপোর্ট কার্ড',
+          'অভিভাবক ও শিক্ষার্থীদের জন্য সরাসরি পরামর্শ সেবা'
+        ],
+        syllabusSummary: 'অষ্টম শ্রেণির শিক্ষার্থীদের বার্ষিক পরীক্ষা ও ভবিষ্যতের বিজ্ঞান বিভাগের প্রস্তুতির জন্য আদর্শ একাডেমিক কোর্স।'
+      },
+      {
+        id: 'class-7-academic-program',
+        titleBn: '৭ম শ্রেণি একাডেমিক প্রোগ্রাম (গণিত, বিজ্ঞান ও ইংরেজি)',
+        titleEn: 'Class 7 Smart Academic Program',
+        classId: 7,
+        classLabel: '৭ম শ্রেণি (Class 7)',
+        programType: 1,
+        typeLabel: 'একাডেমিক প্রোগ্রাম',
+        bannerGradient: 'from-[#B45309] via-[#C8102E] to-[#1B2A4A]',
+        sessionTag: 'Class 7 • স্মার্ট লার্নিং',
+        discountRibbon: '২০% ছাড়',
+        startDate: '১০ ডিসেম্বর, ২০২৬',
+        liveClasses: '১১০+ লাইভ ক্লাস',
+        examsCount: '৩৬+ সাপ্তাহিক পরীক্ষা',
+        regularFee: 2000,
+        discountedFee: 1500,
+        shifts: 'বিকাল ০৪:৩০ | সন্ধ্যা ০৭:৩০',
+        featured: false,
+        highlights: [
+          'গণিত ভীতি দূর করে লজিক্যাল প্রবলেম সলভিং শেখানো',
+          'ইংরেজি গ্রামার, রাইটিং ও ভোকাবুলারি বুস্টার সেশন',
+          'প্রিন্টেড অনুশীলন শিট ও রেকর্ডেড ব্যাকআপ ক্লাস',
+          'হেল্পলাইন সাপোর্ট: 01706631550'
+        ],
+        syllabusSummary: 'সপ্তম শ্রেণির শিক্ষার্থীদের নিয়মিত পড়াশোনার অভ্যাস গড়ে তোলা ও বার্ষিক পরীক্ষায় শীর্ষ ফলাফলের জন্য বিশেষ ব্যাচ।'
+      },
+      {
+        id: 'class-6-academic-program',
+        titleBn: '৬ষ্ঠ শ্রেণি একাডেমিক ফাউন্ডেশন প্রোগ্রাম',
+        titleEn: 'Class 6 Academic Foundation Program',
+        classId: 6,
+        classLabel: '৬ষ্ঠ শ্রেণি (Class 6)',
+        programType: 1,
+        typeLabel: 'একাডেমিক প্রোগ্রাম',
+        bannerGradient: 'from-[#1D4ED8] via-[#0F766E] to-[#1B2A4A]',
+        sessionTag: 'Class 6 • বেসিক বিল্ডিং',
+        discountRibbon: '২০% ছাড়',
+        startDate: '১০ ডিসেম্বর, ২০২৬',
+        liveClasses: '১০০+ লাইভ ক্লাস',
+        examsCount: '৩০+ ফান কুইজ ও এক্সাম',
+        regularFee: 1800,
+        discountedFee: 1400,
+        shifts: 'বিকাল ০৪:৩০',
+        featured: false,
+        highlights: [
+          'মাধ্যমিক স্তরের শুরু থেকেই গণিত, বিজ্ঞান ও ইংরেজিতে আত্মবিশ্বাস তৈরি',
+          'সহজ ভাষায় পাঠ্যবইয়ের প্রতিটি অধ্যায় অনুশীলন',
+          'প্রিন্টেড প্র্যাকটিস বুক ও মাসিক মূল্যায়ন',
+          'সরাসরি মেন্টর গাইডলাইন'
+        ],
+        syllabusSummary: 'ষষ্ঠ শ্রেণির শিক্ষার্থীদের জন্য আনন্দদায়ক ও কার্যকরী অনলাইন একাডেমিক প্রোগ্রাম।'
+      },
+      {
+        id: 'buet-pre-admission-crash',
+        titleBn: 'প্রি-এডমিশন ক্র্যাশ কোর্স (HSC ও এডমিশন সেতুবন্ধন)',
+        titleEn: 'Pre-Admission & Math-Physics Master Crash Course',
+        classId: 12,
+        classLabel: '১২শ / HSC 2nd Year',
+        programType: 4,
+        typeLabel: 'স্পেশাল / ক্র্যাশ কোর্স',
+        bannerGradient: 'from-[#7F1D1D] via-[#C8102E] to-[#0F172A]',
+        sessionTag: 'Special Crash • শর্টকাট ও ট্রিকস',
+        discountRibbon: '৩০% ছাড়',
+        startDate: '১৫ ডিসেম্বর, ২০২৬',
+        liveClasses: '৪৫+ স্পেশাল ট্রিকস ক্লাস',
+        examsCount: '২০+ চ্যালেঞ্জ টেস্ট',
+        regularFee: 2000,
+        discountedFee: 1400,
+        shifts: 'রাত ০৯:০০',
+        featured: false,
+        highlights: [
+          'HSC ও Admission-এর মধ্যকার গ্যাপ পূরণের বিশেষ কৌশল',
+          'ক্যালকুলাস, ভেক্টর, জৈব রসায়ন ও ত্রিকোণমিতির সুপার শর্টকাট',
+          'PDF ফর্মুলা শিট ও সল্যুশন বুক',
+          'সেন্ট্রাল মেরিট র‍্যাঙ্কিং'
+        ],
+        syllabusSummary: 'স্বল্প সময়ে কঠিন অধ্যায়গুলো আয়ত্তে আনার জন্য বিশেষভাবে ডিজাইনকৃত ক্র্যাশ কোর্স।'
+      },
+      {
+        id: 'free-orientation-2026',
+        titleBn: 'ফ্রি মেগা ওরিয়েন্টেশন ও ক্যারিয়ার গাইডলাইন সেমিনার ২০২৬',
+        titleEn: 'Free Mega Orientation & Study Guideline Program 2026',
+        classId: 0,
+        classLabel: 'সকল শ্রেণি (All)',
+        programType: 5,
+        typeLabel: 'ফ্রি ওরিয়েন্টেশন',
+        bannerGradient: 'from-[#0F766E] via-[#047857] to-[#1B2A4A]',
+        sessionTag: '১০০% ফ্রি • সবার জন্য উন্মুক্ত',
+        discountRibbon: 'ফ্রি রেজিস্ট্রেশন',
+        startDate: 'প্রতি শুক্রবার বিকাল ০৪:০০',
+        liveClasses: '১২+ ফ্রি গাইডলাইন ও ডেমো ক্লাস',
+        examsCount: 'ফ্রি ডায়াগনস্টিক MCQ টেস্ট',
+        regularFee: 1000,
+        discountedFee: 0,
+        shifts: 'বিকাল ০৪:০০ (শুক্রবার)',
+        featured: false,
+        highlights: [
+          'SSC, HSC ও Admission-এ ভালো ফলাফলের সঠিক রুটিন পরিকল্পনা',
+          'ফ্রি ডেমো ক্লাস ও অনলাইন এক্সাম সিস্টেম অভিজ্ঞতা',
+          'ফ্রি স্টাডি প্ল্যানার ও ফর্মুলা PDF ডাউনলোড সুবিধা',
+          'সরাসরি প্রশ্নোত্তর পর্ব (Hridoy Saha Shawon টিম)'
+        ],
+        syllabusSummary: 'সকল শ্রেণির শিক্ষার্থী ও অভিভাবকদের জন্য সম্পূর্ণ বিনামূল্যে দিকনির্দেশনামূলক ওরিয়েন্টেশন প্রোগ্রাম।'
+      }
+    ];
+
+    const ROUTINE_SCHEDULE = [
+      { day: 'শনিবার (Saturday)', time: '০৭:৩০ PM', batch: 'HSC', program: 'HSC 2nd Year Academic (Science)', topic: 'Physics 2nd Paper — ভৌত আলোকবিজ্ঞান (লেকচার ০৪)', activity: 'লাইভ ক্লাস + ডেইলি MCQ' },
+      { day: 'রবিবার (Sunday)', time: '০৪:৩০ PM', batch: 'SSC', program: 'SSC Final Revision & Model Test', topic: 'উচ্চতর গণিত — ত্রিকোণমিতি ও পরিমিতি সৃজনশীল সলভ', activity: 'রিভিশন ক্লাস + PDF নোট' },
+      { day: 'সোমবার (Monday)', time: '০৭:৩০ PM', batch: 'Admission', program: 'Engineering + Biology Admission 2026', topic: 'Higher Math — ক্যালকুলাস (যোগজীকরণ ও ক্ষেত্রফল)', activity: 'এডমিশন ক্লাস + রিটেন এক্সাম' },
+      { day: 'মঙ্গলবার (Tuesday)', time: '০৭:৩০ PM', batch: 'Admission', program: 'Medical & Dental Admission 2026', topic: 'Biology — মানব শারীরতত্ত্ব: রক্ত ও সঞ্চালন (দাগানো বই)', activity: 'লাইভ ক্লাস + ১০০ MCQ টেস্ট' },
+      { day: 'বুধবার (Wednesday)', time: '০৪:৩০ PM', batch: 'Junior', program: 'Class 6, 7 & 8 Academic Foundation', topic: 'সাধারণ গণিত — বীজগণিতীয় সূত্রাবলি ও জ্যামিতি', activity: 'ইন্টারেক্টিভ ক্লাস + কুইজ' },
+      { day: 'বৃহস্পতিবার (Thursday)', time: '০৯:০০ PM', batch: 'Admission', program: 'Varsity Ka & GST Admission 2026', topic: 'Chemistry — জৈব রসায়ন নামধারী বিক্রিয়া ও শর্টকাট', activity: 'মডেল টেস্ট + সল্যুশন ক্লাস' },
+      { day: 'শুক্রবার (Friday)', time: '১০:০০ AM', batch: 'HSC', program: 'সকল ব্যাচের সাপ্তাহিক মেগা মডেল টেস্ট', topic: 'সাপ্তাহিক পূর্ণাঙ্গ CQ + MCQ ও কেন্দ্রীয় মেধাতালিকা প্রকাশ', activity: 'সেন্ট্রাল লাইভ এক্সাম' }
+    ];
+
+    const EXAM_BANK = {
+      physics: [
+        {
+          q: '১. একটি প্রাসকে অনুভূমিকের সাথে কত কোণে নিক্ষেপ করলে অনুভূমিক পাল্লা সর্বাধিক হবে?',
+          options: ['30°', '45°', '60°', '90°'],
+          correct: 1,
+          solution: 'অনুভূমিক পাল্লা R = (v₀² sin 2θ)/g। sin 2θ = 1 হলে R সর্বাধিক হয়, অর্থাৎ 2θ = 90° ⇒ θ = 45°।'
+        },
+        {
+          q: '২. কৌণিক ভরবেগের (Angular Momentum) মাত্রা সমীকরণ কোনটি?',
+          options: ['[MLT⁻¹]', '[ML²T⁻¹]', '[ML²T⁻²]', '[MLT⁻²]'],
+          correct: 1,
+          solution: 'কৌণিক ভরবেগ L = r × p, যার মাত্রা [L] × [MLT⁻¹] = [ML²T⁻¹]।'
+        },
+        {
+          q: '৩. কোনো বস্তুর বেগ দ্বিগুণ করা হলে এর গতিশক্তি কত গুণ বৃদ্ধি পাবে?',
+          options: ['২ গুণ', '৩ গুণ', '৪ গুণ', '৮ গুণ'],
+          correct: 2,
+          solution: 'গতিশক্তি Eₖ = ½mv²। বেগ দ্বিগুণ করলে গতিশক্তি 2² = 4 গুণ হয়।'
+        },
+        {
+          q: '৪. তাপগতিবিদ্যার প্রথম সূত্র নিচের কোনটির সংরক্ষণশীলতা নির্দেশ করে?',
+          options: ['ভর', 'চার্জ', 'শক্তি', 'ভরবেগ'],
+          correct: 2,
+          solution: 'তাপগতিবিদ্যার প্রথম সূত্র (dQ = dU + dW) মূলত শক্তির নিত্যতা বা সংরক্ষণশীলতা সূত্রের একটি বিশেষ রূপ।'
+        }
+      ],
+      chemistry: [
+        {
+          q: '১. ইথিন (C₂H₄) অণুর প্রতিটি কার্বন পরমাণুতে কোন ধরনের সংকরায়ন (Hybridization) বিদ্যমান?',
+          options: ['sp', 'sp²', 'sp³', 'sp³d'],
+          correct: 1,
+          solution: 'ইথিন অণুতে প্রতিটি কার্বন পরমাণু তিনটি সিগমা (σ) বন্ধন ও একটি পাই (π) বন্ধন গঠন করে, তাই সংকরায়ন sp²।'
+        },
+        {
+          q: '২. 25°C তাপমাত্রায় 0.001 M HCl দ্রবণের pH মান কত?',
+          options: ['1', '2', '3', '4'],
+          correct: 2,
+          solution: 'HCl একটি তীব্র এসিড হওয়ায় [H⁺] = 10⁻³ M। সুতরাং pH = -log(10⁻³) = 3।'
+        },
+        {
+          q: '৩. পর্যায় সারণিতে সবচেয়ে তড়িৎ ঋণাত্মক (Electronegative) মৌল কোনটি?',
+          options: ['অক্সিজেন (O)', 'ক্লোরিন (Cl)', 'ফ্লোরিন (F)', 'নাইট্রোজেন (N)'],
+          correct: 2,
+          solution: 'পলিং স্কেলে ফ্লোরিনের (F) তড়িৎ ঋণাত্মকতার মান সর্বাধিক (3.98)।'
+        },
+        {
+          q: '৪. আদর্শ গ্যাস সমীকরণ PV = nRT-তে R এর SI একক কোনটি?',
+          options: ['L·atm·K⁻¹·mol⁻¹', 'J·K⁻¹·mol⁻¹', 'cal·K⁻¹·mol⁻¹', 'erg·K⁻¹·mol⁻¹'],
+          correct: 1,
+          solution: 'SI পদ্ধতিতে মোলার গ্যাস ধ্রুবক R = 8.314 J·K⁻¹·mol⁻¹।'
+        }
+      ],
+      math: [
+        {
+          q: '১. sin(30°) + cos(60°) এর মান নিচের কোনটি?',
+          options: ['0', '1/2', '1', '√3/2'],
+          correct: 2,
+          solution: 'sin(30°) = 1/2 এবং cos(60°) = 1/2; যোগফল = 1/2 + 1/2 = 1।'
+        },
+        {
+          q: '২. যদি x + 1/x = 4 হয়, তবে x² + 1/x² এর মান কত?',
+          options: ['12', '14', '16', '18'],
+          correct: 1,
+          solution: 'x² + 1/x² = (x + 1/x)² - 2 = 4² - 2 = 16 - 2 = 14।'
+        },
+        {
+          q: '৩. y = e^(3x) হলে dy/dx এর মান কত?',
+          options: ['e^(3x)', '3e^(3x)', '3e^(2x)', 'e^(3x)/3'],
+          correct: 1,
+          solution: 'd/dx(e^(3x)) = 3e^(3x)।'
+        },
+        {
+          q: '৪. একটি পঞ্চভুজের (Pentagon) অভ্যন্তরীণ কোণগুলোর সমষ্টি কত ডিগ্রি?',
+          options: ['360°', '540°', '720°', '900°'],
+          correct: 1,
+          solution: 'n-ভুজের অন্তঃকোণগুলোর সমষ্টি = (n - 2) × 180° = (5 - 2) × 180° = 540°।'
+        }
+      ],
+      biology: [
+        {
+          q: '১. কোষের কোন অঙ্গাণুকে ‘পাওয়ার হাউস’ (Powerhouse of Cell) বলা হয়?',
+          options: ['রাইবোজোম', 'গলগি বডি', 'মাইটোকন্ড্রিয়া', 'লাইসোজোম'],
+          correct: 2,
+          solution: 'মাইটোকন্ড্রিয়ায় ক্রেবস চক্র ও ইলেকট্রন ট্রান্সপোর্ট সিস্টেমের মাধ্যমে ATP উৎপন্ন হয় বলে একে কোষের পাওয়ার হাউস বলে।'
+        },
+        {
+          q: '২. কোন রক্তের গ্রুপকে সর্বজনীন দাতা (Universal Donor) বলা হয়?',
+          options: ['AB+', 'O-', 'O+', 'A-'],
+          correct: 1,
+          solution: 'O- নেগেটিভ লোহিত রক্তকণিকায় A, B বা Rh কোনো অ্যান্টিজেন থাকে না।'
+        },
+        {
+          q: '৩. উদ্ভিদের সালোকসংশ্লেষণ প্রক্রিয়া প্রধানত পাতার কোন অংশে সংঘটিত হয়?',
+          options: ['জাইলেম টিস্যু', 'মেসোফিল টিস্যু', 'মূলরোম', 'কিউটিকল'],
+          correct: 1,
+          solution: 'পাতার মেসোফিল টিস্যুতে প্রচুর ক্লোরোপ্লাস্ট থাকায় এখানেই প্রধানত সালোকসংশ্লেষণ ঘটে।'
+        },
+        {
+          q: '৪. মানবদেহের বৃহত্তম গ্রন্থি (Largest Gland) কোনটি?',
+          options: ['অগ্ন্যাশয়', 'যকৃত (Liver)', 'থাইরয়েড', 'পিটুইটারি'],
+          correct: 1,
+          solution: 'যকৃত বা লিভার মানবদেহের সবচেয়ে বড় ও গুরুত্বপূর্ণ পরিপাক গ্রন্থি।'
+        }
+      ]
+    };
+
+    const NOTICES_DATA = [
+      {
+        date: '২৪ নভেম্বর, ২০২৬',
+        tag: 'ভর্তি বিজ্ঞপ্তি',
+        title: 'HSC 2026 ও Medical/Engineering Admission 2026 অনলাইন ও কম্বো ব্যাচে ভর্তি শুরু!',
+        body: 'Hridoy Saha Shawon অনলাইন পোর্টালে HSC 1st/2nd Year এবং এডমিশন প্রোগ্রামে বিশেষ ছাড়ে ভর্তি চলছে। কুরিয়ারে প্রিন্টেড লেকচার শিট পেতে এখনই এনরোল করুন। হেল্পলাইন: 01706631550।'
+      },
+      {
+        date: '২১ নভেম্বর, ২০২৬',
+        tag: 'এক্সাম নোটিশ',
+        title: 'সাপ্তাহিক কেন্দ্রীয় মডেল টেস্ট ও মেরিট লিস্ট প্রকাশ সংক্রান্ত বিজ্ঞপ্তি',
+        body: 'প্রতি শুক্রবার সকাল ১০:০০টা থেকে রাত ১০:০০টা পর্যন্ত সাপ্তাহিক মেগা মডেল টেস্ট অনুষ্ঠিত হবে। পরীক্ষা শেষ হওয়ার পরপরই SMS ও স্টুডেন্ট পোর্টালে মেরিট পজিশন দেখা যাবে।'
+      },
+      {
+        date: '১৮ নভেম্বর, ২০২৬',
+        tag: 'কুরিয়ার ও বই',
+        title: 'সারা দেশে প্রিন্টেড প্যারালাল টেক্সট ও প্রশ্নব্যাংক কুরিয়ার ডেলিভারি আপডেট',
+        body: 'ভর্তি সম্পন্ন করার ৪৮ ঘণ্টার মধ্যে আপনার প্রদত্ত ঠিকানায় প্রিন্টেড বই ও লেকচার শিট পাঠানো হবে। যেকোনো তথ্যে যোগাযোগ করুন: Dhukuria, Shiyalkhol Union, Sirajganj Sadar, Sirajganj অথবা কল করুন 01706631550।'
+      }
+    ];
+
+    // Application State
+    const appState = {
+      classId: 0,
+      programType: 0,
+      search: '',
+      sort: 'featured',
+      activePromoDiscount: 0,
+      currentExamSubj: 'physics',
+      examAnswers: {},
+      examSubmitted: false,
+      examSeconds: 300,
+      examTimerRef: null,
+      enrolledList: [],
+      examHistory: []
+    };
+
+    function loadSavedData() {
+      try {
+        const savedEnr = localStorage.getItem('hss_udvash_clone_enrolled');
+        const savedEx = localStorage.getItem('hss_udvash_clone_exams');
+        if (savedEnr) appState.enrolledList = JSON.parse(savedEnr);
+        if (savedEx) appState.examHistory = JSON.parse(savedEx);
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    function saveData() {
+      try {
+        localStorage.setItem('hss_udvash_clone_enrolled', JSON.stringify(appState.enrolledList));
+        localStorage.setItem('hss_udvash_clone_exams', JSON.stringify(appState.examHistory));
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    function showToast(msg, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      const bg = type === 'error' ? 'bg-udvash-red text-white' : 'bg-udvash-navy text-white border-l-4 border-amber-400';
+      el.className = `${bg} px-4 py-3 rounded-xl shadow-xl text-xs sm:text-sm font-semibold pointer-events-auto transition-all`;
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 300);
+      }, 3600);
+    }
+
+    function syncQueryIndicator() {
+      const el = document.getElementById('routeIndicator');
+      if (el) {
+        el.textContent = `Course/Programs?classId=${appState.classId}&programType=${appState.programType}`;
+      }
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('classId', String(appState.classId));
+        url.searchParams.set('programType', String(appState.programType));
+        window.history.replaceState({}, '', url.toString());
+      } catch (e) {
+        // Safe ignore in sandboxed iframe
+      }
+    }
+
+    function initQueryFromUrl() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const cId = parseInt(params.get('classId') || '0', 10);
+        const pType = parseInt(params.get('programType') || '0', 10);
+        if (CLASS_FILTERS.some(c => c.id === cId)) appState.classId = cId;
+        if (PROGRAM_TYPE_FILTERS.some(t => t.id === pType)) appState.programType = pType;
+      } catch (e) {
+        // Ignore
+      }
+      syncQueryIndicator();
+    }
+
+    // Navigation & Section Switcher
+    function switchMainSection(sectionName) {
+      document.querySelectorAll('.portal-section').forEach(sec => sec.classList.add('hidden'));
+      const target = document.getElementById(`section-${sectionName}`);
+      if (target) target.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-link').forEach(btn => {
+        const isActive = btn.dataset.nav === sectionName;
+        btn.className = isActive
+          ? 'nav-link active-nav px-3.5 py-2 rounded-lg text-sm font-bold text-udvash-red bg-udvash-redLight transition'
+          : 'nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-udvash-red hover:bg-slate-50 transition';
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu(forceState) {
+      const menu = document.getElementById('mobileMenu');
+      if (typeof forceState === 'boolean') {
+        menu.classList.toggle('hidden', !forceState);
+      } else {
+        menu.classList.toggle('hidden');
+      }
+    }
+
+    // Render Filter Pills
+    function renderFilters() {
+      const classContainer = document.getElementById('classFilterContainer');
+      classContainer.innerHTML = CLASS_FILTERS.map(item => {
+        const active = appState.classId === item.id;
+        return `
+          <button
+            type="button"
+            onclick="filterByClass(${item.id})"
+            class="px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold border transition ${
+              active
+                ? 'bg-udvash-red text-white border-udvash-red shadow-xs'
+                : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-udvash-red hover:text-udvash-red'
+            }"
+          >
+            ${item.label}
+          </button>
+        `;
+      }).join('');
+
+      const typeContainer = document.getElementById('typeFilterContainer');
+      typeContainer.innerHTML = PROGRAM_TYPE_FILTERS.map(item => {
+        const active = appState.programType === item.id;
+        return `
+          <button
+            type="button"
+            onclick="filterByType(${item.id})"
+            class="px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold border transition ${
+              active
+                ? 'bg-udvash-navy text-white border-udvash-navy shadow-xs'
+                : 'bg-white text-slate-700 border-slate-300 hover:border-udvash-navy hover:text-udvash-navy'
+            }"
+          >
+            ${item.label}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function filterByClass(id) {
+      appState.classId = id;
+      syncQueryIndicator();
+      renderFilters();
+      renderCourseCards();
+    }
+
+    function filterByType(id) {
+      appState.programType = id;
+      syncQueryIndicator();
+      renderFilters();
+      renderCourseCards();
+    }
+
+    function handleSearch(val) {
+      appState.search = val.trim().toLowerCase();
+      renderCourseCards();
+    }
+
+    function handleSort(val) {
+      appState.sort = val;
+      renderCourseCards();
+    }
+
+    function resetFilters() {
+      appState.classId = 0;
+      appState.programType = 0;
+      appState.search = '';
+      appState.sort = 'featured';
+      const searchInp = document.getElementById('programSearchInput');
+      if (searchInp) searchInp.value = '';
+      const sortSel = document.getElementById('programSortSelect');
+      if (sortSel) sortSel.value = 'featured';
+      syncQueryIndicator();
+      renderFilters();
+      renderCourseCards();
+    }
+
+    // Build Authentic Udvash-Unmesh Style Course Card Banner with Hridoy Saha Shawon Branding
+    function buildUdvashStyleBanner(course, isLarge = false) {
+      return `
+        <div class="relative overflow-hidden bg-gradient-to-br ${course.bannerGradient} text-white ${isLarge ? 'p-6 sm:p-7' : 'p-4 sm:p-5'} select-none">
+          <!-- Subtle Geometric Watermark -->
+          <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ffffff 1.2px, transparent 1.2px); background-size: 16px 16px;"></div>
+          <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-white/10 pointer-events-none"></div>
+
+          <!-- Top Header: Hridoy Saha Shawon Logo & Ribbon -->
+          <div class="relative z-10 flex items-center justify-between gap-2 mb-3">
+            <div class="inline-flex items-center gap-2 bg-black/30 backdrop-blur-xs border border-white/20 px-2.5 py-1 rounded-lg">
+              <span class="w-5 h-5 rounded bg-amber-400 text-udvash-navyDark font-en font-extrabold text-[10px] flex items-center justify-center">HS</span>
+              <span class="font-en font-extrabold text-[11px] tracking-tight text-white">Hridoy Saha Shawon</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded bg-amber-400 text-udvash-navyDark font-extrabold text-[11px] shadow-xs">
+              ${course.discountRibbon}
+            </span>
+          </div>
+
+          <!-- Session Tag & Headline -->
+          <div class="relative z-10 space-y-1">
+            <span class="inline-block text-[11px] font-bold bg-white/15 border border-white/20 px-2 py-0.5 rounded text-amber-200 font-en">
+              ${course.sessionTag}
+            </span>
+            <h4 class="font-extrabold ${isLarge ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'} leading-snug text-white">
+              ${course.titleBn}
+            </h4>
+          </div>
+
+          <!-- Bottom Helpline & Mode Strip -->
+          <div class="relative z-10 mt-3 pt-2 border-t border-white/15 flex items-center justify-between text-[11px] text-slate-100">
+            <span>লাইভ ক্লাস • এক্সাম • প্রিন্টেড বুক</span>
+            <span class="font-en font-bold text-amber-300">01706631550</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function getFilteredCourses() {
+      let list = COURSES_CATALOG.filter(c => {
+        const matchClass = appState.classId === 0 || c.classId === appState.classId || (c.id === 'free-orientation-2026' && appState.classId === 0);
+        const matchType = appState.programType === 0 || c.programType === appState.programType;
+        const matchQuery = !appState.search ||
+          c.titleBn.toLowerCase().includes(appState.search) ||
+          c.titleEn.toLowerCase().includes(appState.search) ||
+          c.classLabel.toLowerCase().includes(appState.search) ||
+          c.sessionTag.toLowerCase().includes(appState.search);
+        return matchClass && matchType && matchQuery;
+      });
+
+      if (appState.sort === 'fee-asc') {
+        list = [...list].sort((a, b) => a.discountedFee - b.discountedFee);
+      } else if (appState.sort === 'fee-desc') {
+        list = [...list].sort((a, b) => b.discountedFee - a.discountedFee);
+      } else {
+        list = [...list].sort((a, b) => Number(b.featured) - Number(a.featured));
+      }
+      return list;
+    }
+
+    function renderCourseCards() {
+      const grid = document.getElementById('programsGrid');
+      const emptyBox = document.getElementById('emptyProgramsState');
+      const countLabel = document.getElementById('programCountLabel');
+      const courses = getFilteredCourses();
+
+      countLabel.textContent = `মোট ${courses.length}টি চলমান প্রোগ্রাম পাওয়া গেছে`;
+
+      if (courses.length === 0) {
+        grid.innerHTML = '';
+        emptyBox.classList.remove('hidden');
+        return;
+      }
+
+      emptyBox.classList.add('hidden');
+      grid.innerHTML = courses.map(course => {
+        const isEnrolled = appState.enrolledList.some(e => e.programId === course.id);
+        return `
+          <article class="program-card bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between shadow-xs">
+            <div>
+              ${buildUdvashStyleBanner(course, false)}
+
+              <div class="p-5 pb-3">
+                <div class="flex flex-wrap items-center gap-1.5 mb-2">
+                  <span class="text-[11px] font-bold px-2.5 py-0.5 rounded bg-udvash-redLight text-udvash-red">
+                    ${course.classLabel}
+                  </span>
+                  <span class="text-[11px] font-bold px-2.5 py-0.5 rounded bg-slate-100 text-slate-700">
+                    ${course.typeLabel}
+                  </span>
+                </div>
+
+                <h3 class="text-base sm:text-lg font-extrabold text-udvash-navy leading-snug">
+                  ${course.titleBn}
+                </h3>
+                <p class="text-xs text-slate-500 font-en mt-0.5 mb-3">
+                  ${course.titleEn}
+                </p>
+
+                <!-- Udvash-style Bulleted Highlights -->
+                <ul class="space-y-1.5 text-xs sm:text-[13px] text-slate-700 mb-4">
+                  ${course.highlights.map(h => `
+                    <li class="flex items-start gap-2">
+                      <span class="text-udvash-red font-extrabold mt-0.5">✓</span>
+                      <span>${h}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+
+                <div class="bg-slate-50 rounded-xl p-3 border border-slate-200/70 text-xs space-y-1">
+                  <div class="flex justify-between">
+                    <span class="text-slate-500">ক্লাস শুরু:</span>
+                    <span class="font-bold text-slate-800">${course.startDate}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-500">ক্লাস ও পরীক্ষা:</span>
+                    <span class="font-bold text-slate-800">${course.liveClasses}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fee & Dual Action Buttons -->
+            <div class="px-5 pb-5 pt-3 border-t border-slate-100 space-y-3">
+              <div class="flex items-baseline justify-between">
+                <span class="text-xs font-bold text-slate-500">কোর্স ফি:</span>
+                <div class="flex items-baseline gap-2 font-en">
+                  ${course.regularFee > course.discountedFee ? `<span class="text-xs text-slate-400 line-through">৳ ${course.regularFee.toLocaleString()}</span>` : ''}
+                  <span class="text-xl font-extrabold text-udvash-red">
+                    ${course.discountedFee === 0 ? 'FREE (৳ ০)' : `৳ ${course.discountedFee.toLocaleString()}`}
+                  </span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  onclick="openDetailsModal('${course.id}')"
+                  class="py-2.5 px-3 rounded-xl border border-udvash-navy text-udvash-navy hover:bg-udvash-navy hover:text-white font-bold text-xs sm:text-sm transition"
+                >
+                  Details / রুটিন
+                </button>
+                <button
+                  type="button"
+                  onclick="openEnrollModal('${course.id}')"
+                  class="py-2.5 px-3 rounded-xl ${
+                    isEnrolled
+                      ? 'bg-udvash-teal text-white'
+                      : 'bg-udvash-red hover:bg-udvash-redDark text-white'
+                  } font-bold text-xs sm:text-sm shadow-xs transition"
+                >
+                  ${isEnrolled ? 'ভর্তি সম্পন্ন ✓' : 'Enroll Now'}
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Modal Helpers
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Program Details Modal
+    function openDetailsModal(courseId) {
+      const course = COURSES_CATALOG.find(c => c.id === courseId);
+      if (!course) return;
+
+      document.getElementById('detailsBannerHeader').innerHTML = buildUdvashStyleBanner(course, true);
+      document.getElementById('detClassBadge').textContent = course.classLabel;
+      document.getElementById('detTypeBadge').textContent = course.typeLabel;
+      document.getElementById('detTitle').textContent = course.titleBn;
+      document.getElementById('detSubTitle').textContent = course.titleEn;
+      document.getElementById('detStartDate').textContent = course.startDate;
+      document.getElementById('detClassCount').textContent = course.liveClasses;
+      document.getElementById('detExamCount').textContent = course.examsCount;
+      document.getElementById('detFeeText').textContent = course.discountedFee === 0 ? 'FREE' : `৳ ${course.discountedFee.toLocaleString()}`;
+      document.getElementById('detDescription').textContent = course.syllabusSummary;
+      document.getElementById('detShiftsText').textContent = `শিফট: ${course.shifts}`;
+      document.getElementById('detSyllabusText').textContent = `প্রতি সপ্তাহে ৬ দিন লাইভ ক্লাস, ডেইলি MCQ প্র্যাকটিস এবং প্রতি শুক্রবার কেন্দ্রীয় সাপ্তাহিক মডেল টেস্ট। প্রিন্টেড লেকচার শিট ও প্রশ্নব্যাংক কুরিয়ারে পাঠানো হয় (হেল্পলাইন: 01706631550)।`;
+
+      document.getElementById('detFeatureList').innerHTML = course.highlights.map(item => `
+        <li class="flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200/70">
+          <span class="text-udvash-red font-extrabold">✓</span>
+          <span>${item}</span>
+        </li>
+      `).join('');
+
+      document.getElementById('detDemoBtn').onclick = () => {
+        closeModal('detailsModal');
+        openDemoPlayer(course.id);
+      };
+      document.getElementById('detEnrollBtn').onclick = () => {
+        closeModal('detailsModal');
+        openEnrollModal(course.id);
+      };
+
+      openModal('detailsModal');
+    }
+
+    // Enrollment & Payment Checkout Modal
+    let currentCheckoutCourse = null;
+
+    function openEnrollModal(courseId) {
+      const course = COURSES_CATALOG.find(c => c.id === courseId);
+      if (!course) return;
+
+      currentCheckoutCourse = course;
+      appState.activePromoDiscount = 0;
+      document.getElementById('enrProgramId').value = course.id;
+      document.getElementById('enrProgramTitle').textContent = course.titleBn;
+      document.getElementById('enrPromoInput').value = '';
+      document.getElementById('receiptPrintArea').classList.add('hidden');
+      document.getElementById('enrollForm').classList.remove('hidden');
+
+      updateCheckoutFeeDisplay();
+      openModal('enrollModal');
+    }
+
+    function updateCheckoutFeeDisplay() {
+      if (!currentCheckoutCourse) return;
+      const base = currentCheckoutCourse.discountedFee;
+      const finalAmt = Math.max(0, Math.round(base * (1 - appState.activePromoDiscount)));
+      document.getElementById('enrPayableAmount').textContent = finalAmt === 0 ? 'FREE (৳ 0)' : `৳ ${finalAmt.toLocaleString()}`;
+      document.getElementById('enrRegularAmount').textContent = currentCheckoutCourse.regularFee > finalAmt ? `৳ ${currentCheckoutCourse.regularFee.toLocaleString()}` : '';
+      document.getElementById('enrDiscountNote').textContent = appState.activePromoDiscount > 0 ? '(SHAWON10 ১০% অতিরিক্ত ছাড় প্রযোজ্য)' : '';
+    }
+
+    function applyPromoCode() {
+      const code = document.getElementById('enrPromoInput').value.trim().toUpperCase();
+      if (code === 'SHAWON10') {
+        appState.activePromoDiscount = 0.10;
+        updateCheckoutFeeDisplay();
+        showToast('প্রোমো কোড SHAWON10 সফলভাবে যুক্ত হয়েছে! অতিরিক্ত ১০% ছাড়।');
+      } else {
+        showToast('সঠিক প্রোমো কোড দিন (যেমন: SHAWON10)', 'error');
+      }
+    }
+
+    function completeEnrollment(event) {
+      event.preventDefault();
+      if (!currentCheckoutCourse) return;
+
+      const name = document.getElementById('enrStudentName').value.trim();
+      const phone = document.getElementById('enrStudentPhone').value.trim();
+      const inst = document.getElementById('enrInstitution').value.trim();
+      const shift = document.getElementById('enrBatchShift').value;
+      const addr = document.getElementById('enrDeliveryAddr').value.trim() || 'Online Portal Access';
+      const method = document.getElementById('enrPaymentMethod').value;
+
+      const paidAmount = Math.max(0, Math.round(currentCheckoutCourse.discountedFee * (1 - appState.activePromoDiscount)));
+      const rollNo = 'HSS-' + Math.floor(100000 + Math.random() * 900000);
+      const trxId = 'TRX' + Math.floor(10000000 + Math.random() * 90000000);
+
+      const record = {
+        rollNo,
+        trxId,
+        programId: currentCheckoutCourse.id,
+        programTitle: currentCheckoutCourse.titleBn,
+        studentName: name,
+        phone,
+        institution: inst,
+        shift,
+        address: addr,
+        method,
+        paidAmount,
+        date: new Date().toLocaleDateString('bn-BD')
+      };
+
+      appState.enrolledList.unshift(record);
+      saveData();
+      updateEnrolledBadge();
+      renderCourseCards();
+
+      document.getElementById('receiptRollBadge').textContent = `Roll: ${rollNo}`;
+      document.getElementById('receiptContentGrid').innerHTML = `
+        <div><span class="text-slate-500">শিক্ষার্থীর নাম:</span> <strong>${record.studentName}</strong></div>
+        <div><span class="text-slate-500">মোবাইল নম্বর:</span> <strong class="font-en">${record.phone}</strong></div>
+        <div class="sm:col-span-2"><span class="text-slate-500">ভর্তিকৃত প্রোগ্রাম:</span> <strong>${record.programTitle}</strong></div>
+        <div><span class="text-slate-500">ব্যাচ শিফট:</span> <strong>${record.shift}</strong></div>
+        <div><span class="text-slate-500">পেমেন্ট ও TrxID:</span> <strong class="font-en">${record.method} (${record.trxId})</strong></div>
+        <div><span class="text-slate-500">পরিশোধিত ফি:</span> <strong class="text-udvash-red font-en">৳ ${record.paidAmount.toLocaleString()}</strong></div>
+        <div><span class="text-slate-500">হেল্পলাইন:</span> <strong class="font-en">01706631550</strong></div>
+      `;
+
+      document.getElementById('enrollForm').classList.add('hidden');
+      document.getElementById('receiptPrintArea').classList.remove('hidden');
+      showToast(`অভিনন্দন ${name}! আপনার ভর্তি সফলভাবে সম্পন্ন হয়েছে। Roll: ${rollNo}`);
+    }
+
+    function updateEnrolledBadge() {
+      document.getElementById('enrolledBadge').textContent = String(appState.enrolledList.length);
+    }
+
+    // Free Demo Class Player
+    let isDemoPlaying = false;
+
+    function openDemoPlayer(courseId) {
+      const course = COURSES_CATALOG.find(c => c.id === courseId) || COURSES_CATALOG[0];
+      isDemoPlaying = false;
+      document.getElementById('demoPlayIcon').textContent = '▶';
+      document.getElementById('demoStatusLabel').textContent = 'Paused • Click Play to Simulate Lecture';
+      document.getElementById('demoBarFill').style.width = '45%';
+      document.getElementById('demoModalTitle').textContent = course.titleBn;
+      document.getElementById('demoTeacherLabel').textContent = 'মেন্টর প্যানেল • Hridoy Saha Shawon';
+      document.getElementById('demoTopicHeading').textContent = `ডেমো লেকচার: ${course.classLabel} — মূল কনসেপ্ট ও সৃজনশীল সমাধান`;
+      document.getElementById('demoSummaryText').textContent = course.syllabusSummary;
+      document.getElementById('demoEnrollNowBtn').onclick = () => {
+        closeModal('demoPlayerModal');
+        openEnrollModal(course.id);
+      };
+      openModal('demoPlayerModal');
+    }
+
+    function toggleDemoPlay() {
+      isDemoPlaying = !isDemoPlaying;
+      document.getElementById('demoPlayIcon').textContent = isDemoPlaying ? '❚❚' : '▶';
+      document.getElementById('demoStatusLabel').textContent = isDemoPlaying
+        ? 'Playing HD Smartboard Class • Live Q&A Active'
+        : 'Paused • Click Play to Resume';
+      document.getElementById('demoBarFill').style.width = isDemoPlaying ? '82%' : '45%';
+    }
+
+    function renderFreeClassesSection() {
+      const grid = document.getElementById('freeClassesGrid');
+      const sampleCourses = COURSES_CATALOG.slice(0, 6);
+      grid.innerHTML = sampleCourses.map(c => `
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs flex flex-col justify-between">
+          <div>
+            ${buildUdvashStyleBanner(c, false)}
+            <div class="p-5">
+              <span class="text-xs font-bold text-udvash-teal bg-teal-50 px-2.5 py-0.5 rounded">${c.classLabel}</span>
+              <h3 class="text-base font-extrabold text-udvash-navy mt-2">${c.titleBn}</h3>
+              <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">${c.syllabusSummary}</p>
+            </div>
+          </div>
+          <div class="px-5 pb-5">
+            <button type="button" onclick="openDemoPlayer('${c.id}')" class="w-full py-2.5 rounded-xl bg-udvash-navy hover:bg-udvash-navyDark text-white font-bold text-sm transition">
+              ▶ ফ্রি ডেমো ক্লাস দেখুন
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Routine Table Renderer
+    function renderRoutineTable() {
+      const filterVal = document.getElementById('routineFilterSelect')?.value || 'all';
+      const tbody = document.getElementById('routineTableBody');
+      const rows = ROUTINE_SCHEDULE.filter(r => filterVal === 'all' || r.batch === filterVal);
+
+      tbody.innerHTML = rows.map(r => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="py-3.5 px-4 font-bold text-udvash-navy">
+            <div>${r.day}</div>
+            <div class="text-xs text-udvash-red font-en">${r.time}</div>
+          </td>
+          <td class="py-3.5 px-4 font-semibold text-slate-800">${r.program}</td>
+          <td class="py-3.5 px-4 text-slate-700">${r.topic}</td>
+          <td class="py-3.5 px-4">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-teal-50 text-udvash-teal">${r.activity}</span>
+          </td>
+          <td class="py-3.5 px-4 text-right">
+            <button type="button" onclick="switchMainSection('programs')" class="px-3 py-1.5 rounded-lg bg-udvash-redLight text-udvash-red hover:bg-udvash-red hover:text-white font-bold text-xs transition">
+              ভর্তি হোন
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Live MCQ Exam Engine
+    function startExamCountdown() {
+      if (appState.examTimerRef) clearInterval(appState.examTimerRef);
+      appState.examSeconds = 300;
+      appState.examTimerRef = setInterval(() => {
+        if (appState.examSubmitted) return;
+        if (appState.examSeconds > 0) {
+          appState.examSeconds--;
+          const mins = String(Math.floor(appState.examSeconds / 60)).padStart(2, '0');
+          const secs = String(appState.examSeconds % 60).padStart(2, '0');
+          const el = document.getElementById('examTimerText');
+          if (el) el.textContent = `${mins}:${secs}`;
+        }
+      }, 1000);
+    }
+
+    function loadExamSubject(subj) {
+      appState.currentExamSubj = subj;
+      appState.examAnswers = {};
+      appState.examSubmitted = false;
+      document.getElementById('examEvaluationCard').classList.add('hidden');
+
+      document.querySelectorAll('.exam-subj-btn').forEach(btn => {
+        const active = btn.dataset.subj === subj;
+        btn.className = active
+          ? 'exam-subj-btn px-4 py-2 rounded-xl text-sm font-bold bg-udvash-red text-white'
+          : 'exam-subj-btn px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200';
+      });
+
+      renderExamQuestions();
+      startExamCountdown();
+    }
+
+    function selectExamOption(qIdx, optIdx) {
+      if (appState.examSubmitted) return;
+      appState.examAnswers[qIdx] = optIdx;
+      renderExamQuestions();
+    }
+
+    function renderExamQuestions() {
+      const questions = EXAM_BANK[appState.currentExamSubj];
+      const answeredCount = Object.keys(appState.examAnswers).length;
+      document.getElementById('examAnsweredCounter').textContent = `উত্তর দেওয়া হয়েছে: ${answeredCount} / ${questions.length}`;
+
+      const letters = ['ক', 'খ', 'গ', 'ঘ'];
+      document.getElementById('examQuestionsWrapper').innerHTML = questions.map((item, qIdx) => {
+        const chosen = appState.examAnswers[qIdx];
+        return `
+          <div class="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-3">
+            <h4 class="font-bold text-sm sm:text-base text-udvash-navy">${item.q}</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              ${item.options.map((opt, optIdx) => {
+                const isSelected = chosen === optIdx;
+                let styleClass = 'bg-white border-slate-200 hover:border-udvash-navy text-slate-800';
+                if (appState.examSubmitted) {
+                  if (optIdx === item.correct) {
+                    styleClass = 'bg-emerald-50 border-emerald-500 text-emerald-900 font-bold';
+                  } else if (isSelected && optIdx !== item.correct) {
+                    styleClass = 'bg-red-50 border-udvash-red text-udvash-red font-bold';
+                  }
+                } else if (isSelected) {
+                  styleClass = 'bg-udvash-navy border-udvash-navy text-white font-bold';
+                }
+
+                return `
+                  <button
+                    type="button"
+                    onclick="selectExamOption(${qIdx}, ${optIdx})"
+                    class="omr-bubble flex items-center gap-3 p-3 rounded-xl border text-left text-sm ${styleClass}"
+                  >
+                    <span class="w-7 h-7 rounded-full border flex items-center justify-center text-xs font-extrabold shrink-0 ${
+                      isSelected && !appState.examSubmitted ? 'bg-udvash-red border-udvash-red text-white' : 'border-current'
+                    }">
+                      ${letters[optIdx]}
+                    </span>
+                    <span>${opt}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function submitLiveExam() {
+      const questions = EXAM_BANK[appState.currentExamSubj];
+      appState.examSubmitted = true;
+      renderExamQuestions();
+
+      let right = 0;
+      let wrong = 0;
+      const solutionsHtml = questions.map((item, idx) => {
+        const picked = appState.examAnswers[idx];
+        const isRight = picked === item.correct;
+        if (picked !== undefined) {
+          if (isRight) right++;
+          else wrong++;
+        }
+        return `
+          <div class="bg-white p-3.5 rounded-xl border ${isRight ? 'border-emerald-300' : 'border-amber-300'} text-xs sm:text-sm">
+            <div class="font-bold text-udvash-navy">${item.q}</div>
+            <p class="text-slate-600 mt-1">
+              সঠিক উত্তর: <strong class="text-emerald-700">${item.options[item.correct]}</strong> — ${item.solution}
+            </p>
+          </div>
+        `;
+      }).join('');
+
+      const netMarks = Number((right * 1 - wrong * 0.25).toFixed(2));
+      const meritPos = Math.max(1, 35 - right * 8 + wrong * 2);
+
+      appState.examHistory.unshift({
+        subject: appState.currentExamSubj.toUpperCase(),
+        score: `${netMarks} / ${questions.length}`,
+        merit: `#${meritPos}`,
+        date: new Date().toLocaleDateString('bn-BD')
+      });
+      saveData();
+
+      document.getElementById('examFinalScoreText').textContent = `প্রাপ্ত নম্বর: ${netMarks} / ${questions.length}.00 (সঠিক: ${right}, ভুল: ${wrong})`;
+      document.getElementById('examMeritBadge').textContent = `Central Merit: #${meritPos}`;
+      document.getElementById('examSolutionsContainer').innerHTML = solutionsHtml;
+      document.getElementById('examEvaluationCard').classList.remove('hidden');
+      showToast(`পরীক্ষা সম্পন্ন! প্রাপ্ত নম্বর: ${netMarks} | Merit Position: #${meritPos}`);
+    }
+
+    function resetLiveExam() {
+      loadExamSubject(appState.currentExamSubj);
+    }
+
+    // Notice Board & Contact Form
+    function renderNoticeBoard() {
+      document.getElementById('noticeBoardList').innerHTML = NOTICES_DATA.map(n => `
+        <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-1.5">
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="px-2.5 py-0.5 rounded bg-udvash-red text-white font-bold">${n.tag}</span>
+            <span class="text-slate-500 font-semibold">${n.date}</span>
+          </div>
+          <h3 class="text-base sm:text-lg font-extrabold text-udvash-navy">${n.title}</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">${n.body}</p>
+        </div>
+      `).join('');
+    }
+
+    function submitContactInquiry(e) {
+      e.preventDefault();
+      const name = document.getElementById('inqName').value.trim();
+      const phone = document.getElementById('inqPhone').value.trim();
+      if (!name || !phone) return;
+      e.target.reset();
+      showToast(`ধন্যবাদ ${name}! আপনার তথ্য গৃহীত হয়েছে। 01706631550 নম্বর থেকে শীঘ্রই কল করা হবে।`);
+    }
+
+    // Student Portal Modal
+    function openStudentPortal() {
+      const container = document.getElementById('portalEnrolledContainer');
+      if (appState.enrolledList.length === 0) {
+        container.innerHTML = `
+          <div class="p-6 rounded-2xl border-2 border-dashed border-slate-300 text-center space-y-2">
+            <p class="font-bold text-udvash-navy">আপনি এখনো কোনো প্রোগ্রামে ভর্তি হননি</p>
+            <p class="text-xs sm:text-sm text-slate-600">যেকোনো কোর্সের কার্ড থেকে <strong>Enroll Now</strong> বাটনে ক্লিক করে ভর্তি সম্পন্ন করলে এখানে আপনার Roll, রুটিন ও ক্লাস অ্যাক্সেস দেখতে পাবেন।</p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = appState.enrolledList.map(rec => `
+          <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-1.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-xs font-extrabold font-en">Active • ${rec.rollNo}</span>
+              <span class="text-xs text-slate-500 font-en">${rec.method} • ৳ ${rec.paidAmount.toLocaleString()}</span>
+            </div>
+            <h4 class="font-extrabold text-udvash-navy text-base">${rec.programTitle}</h4>
+            <p class="text-xs text-slate-600">শিক্ষার্থী: <strong>${rec.studentName}</strong> (${rec.phone}) • শিফট: ${rec.shift}</p>
+          </div>
+        `).join('');
+      }
+
+      const exBox = document.getElementById('portalExamHistoryContainer');
+      if (appState.examHistory.length > 0) {
+        exBox.innerHTML = `
+          <h4 class="text-xs font-extrabold uppercase text-udvash-navy pt-2 border-t border-slate-200">লাইভ MCQ এক্সাম রেজাল্ট হিস্ট্রি</h4>
+          ${appState.examHistory.map(ex => `
+            <div class="flex items-center justify-between px-4 py-2.5 rounded-xl bg-udvash-redLight/60 border border-udvash-red/15 text-xs">
+              <span class="font-bold text-udvash-navy font-en">${ex.subject} (${ex.date})</span>
+              <span class="font-extrabold text-udvash-red font-en">Score: ${ex.score} • Merit ${ex.merit}</span>
+            </div>
+          `).join('')}
+        `;
+      } else {
+        exBox.innerHTML = '';
+      }
+
+      openModal('studentPortalModal');
+    }
+
+    // Boot Application
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedData();
+      initQueryFromUrl();
+      renderFilters();
+      renderCourseCards();
+      renderRoutineTable();
+      renderFreeClassesSection();
+      loadExamSubject('physics');
+      renderNoticeBoard();
+      updateEnrolledBadge();
+    });
+  </script>
+</body>
+</html>
+```
